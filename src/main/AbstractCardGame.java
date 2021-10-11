@@ -1,10 +1,13 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 abstract class AbstractCardGame {
     private final Scanner scanner;
     private boolean isEnd;
+
+    private final ArrayList<AbstractPlayer> players;
 
     AbstractCardGame(
     ) {
