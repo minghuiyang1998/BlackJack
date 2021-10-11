@@ -1,0 +1,102 @@
+/*
+开局： MH
+main -> MainGame
+1. type = choose game(),
+2. type.start()MH
+
+1. Card  JY
+value
+symbol
+
+2. AbstractPlayer (abstract Class)
+balance: new Money
+betting: new Betting
+Hand:
+name: String
+ArrayList<CardSet>
+newBet
+hit()
+split()
+stand()
+doubleUp()
+- BJPlayer
+- TEPlayer
+
+3. AbstractGame
+ArrayList<Player>
+Referee: AbstractReferee
+Dealer: AbstractDealer
+......
+...
+isEnd: boolean
+initGame()(abstract)
+// logic
+start() {
+    while() {
+        for() {
+            printAll()
+            player操作
+            ........
+            ........
+            .....
+            Referee.judge
+        }
+    }
+}
+printTable()(abstract){
+    printDealer
+    printPlayer
+}
+
+- BJGame
+implement:
+super(new ArrayList<BJPlayer>,......)
+-xxx(){
+    ........
+}
+- TEGame
+
+4.CardSet (abstract class)
+ArrayList<Card>
+
+5. Money (abstract class) JY
+value
+get()
+set()
+- Betting: JY
+   continue
+
+6.Dealer (abstract computer)
+GameCard:
+cardInHands: 手上的牌
+Hand
+deal()
+shuffle()
+- BJDealer
+new Poker() 游戏用牌
+- TEDealer
+new Poker() 游戏用牌
+constructor:CardSet: new Poker
+
+7.Referee(abstract)
+judge() (abstract)
+- BJReferee
+- TEReferee
+
+8.Hand JY
+isShowed
+Card
+
+9.Poker extends CardSet { JY
+    private Poker() {
+        List //52 pokers
+       for()
+           new Card (
+       cardList
+    }
+    public getPokerSet() {
+        return cardList
+    }
+}
+
+* */
