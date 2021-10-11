@@ -1,11 +1,11 @@
 package main;
 
 public class Card {
-    private String suit;    // For poker, suits can be clubs, spades, hearts and diamonds
+    private Suits suit;    // For poker, suits can be clubs, spades, hearts and diamonds
     private String name;    // Ace, 2, ..., 10, Jack, Queen, King
     private int value;
 
-    public Card (String suit, String name, int val) {
+    public Card (Suits suit, String name, int val) {
         this.suit = suit;
         this.name = name;
         this.value = val;
@@ -16,11 +16,11 @@ public class Card {
         return getSuit() + getName();
     }
 
-    public String getSuit() {
+    public Suits getSuit() {
         return suit;
     }
 
-    public void setSuit(String suit) {
+    public void setSuit(Suits suit) {
         this.suit = suit;
     }
 
