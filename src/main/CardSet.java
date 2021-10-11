@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 
 public abstract class CardSet {
+//    public String[] suits;
     public ArrayList<Card> deck;
 
     public CardSet () {
