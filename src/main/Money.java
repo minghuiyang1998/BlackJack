@@ -36,4 +36,11 @@ class Money {
         return false;
     }
 
+    boolean compareTo(Money m) {
+        if (this.getValue() > m.getValue()) {
+            return true;
+        }
+        return false;
+    }
+
 }
