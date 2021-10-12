@@ -9,25 +9,24 @@ class CardSet {
         deck = new ArrayList<Card>();
     }
 
-    void addCard(Card c) {
+    public void addCard(Card c) {
         deck.add(c);
     }
 
-    int getDeckSize() {
-        return this.deck.size();
+    public int getSize() {
+        return deck.size();
     }
 
     Card getCard(int index) {
         /* return the card at the specified position */
-        return this.deck.get(index);
+        return deck.get(index);
     }
 
-    void removeCard(int index) {
-        this.deck.remove(index);
+    Card removeCard(int index) {
+        return deck.remove(index);
     }
 
     void clear() {
-        this.deck.clear();
+        deck.clear();
     }
-
 }
