@@ -5,7 +5,7 @@ class Card {
     private String name;    // Ace, 2, ..., 10, Jack, Queen, King
     private int value;
 
-    Card (Suits suit, String name, int val) {
+    Card(Suits suit, String name, int val) {
         this.suit = suit;
         this.name = name;
         this.value = val;

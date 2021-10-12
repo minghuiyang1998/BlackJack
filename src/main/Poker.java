@@ -10,7 +10,7 @@ final class Poker extends CardSet {
         return INSTANCE;
     }
 
-    private Poker () {
+    private Poker() {
         int n = 10;
 
         for (int i = 0; i < Suits.values().length; i++) {
