@@ -1,13 +1,18 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 abstract class AbstractCardGame {
     private final Scanner scanner;
     private boolean isEnd;
 
+    private final AbstractPlayer[] players;
+
     AbstractCardGame(
+            AbstractPlayer[] players
     ) {
+        this.players = players;
         this.isEnd = false;
         this.scanner = new Scanner(System.in);
     }
