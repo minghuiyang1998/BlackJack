@@ -7,10 +7,12 @@ abstract class AbstractCardGame {
     private final Scanner scanner;
     private boolean isEnd;
 
-    private final ArrayList<AbstractPlayer> players;
+    private final AbstractPlayer[] players;
 
     AbstractCardGame(
+            AbstractPlayer[] players
     ) {
+        this.players = players;
         this.isEnd = false;
         this.scanner = new Scanner(System.in);
     }

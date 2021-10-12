@@ -1,13 +1,20 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 class BlackJack extends AbstractCardGame{
    private static BlackJack INSTANCE = null;
-   private BlackJack() {
-      super();
+   private BlackJack(
+           BJPlayer[] players
+   ) {
+      super(players);
    }
+
    static public BlackJack getInstance() {
       if (INSTANCE == null) {
-         INSTANCE = new BlackJack();
+         BJPlayer[] bjPlayers = new BJPlayer[2];
+         INSTANCE = new BlackJack(bjPlayers);
       }
       return INSTANCE;
 
