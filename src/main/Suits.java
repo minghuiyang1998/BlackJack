@@ -1,6 +1,6 @@
 package main;
 
-public enum Suits {
+enum Suits {
     HEARTS("♥"),
     DIAMONDS("♦"),
     CLUBS("♣"),
@@ -11,7 +11,7 @@ public enum Suits {
         this.suit = s;
     }
 
-    public String getSuit() {
+    String getSuit() {
         return this.suit;
     }
 }

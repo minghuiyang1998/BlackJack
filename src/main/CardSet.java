@@ -22,7 +22,7 @@ class CardSet {
         return this.deck.get(index);
     }
 
-    void remove (int index) {
+    void removeCard (int index) {
         this.deck.remove(index);
     }
 
