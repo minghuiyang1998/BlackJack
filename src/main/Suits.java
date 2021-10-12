@@ -11,7 +11,7 @@ enum Suits {
         this.suit = s;
     }
 
-    String getSuit() {
+    public String toString() {
         return this.suit;
     }
 }
