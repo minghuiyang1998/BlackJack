@@ -13,7 +13,11 @@ class Card {
 
     @Override
     public String toString() {
-        return getSuit() + getName();
+        return getSuit().toString() + getName();
+    }
+
+    public boolean equals(Card c) {
+        return this.value == c.getValue();
     }
 
     public Suits getSuit() {
