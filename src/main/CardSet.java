@@ -2,12 +2,11 @@ package main;
 
 import java.util.ArrayList;
 
-public abstract class CardSet {
-//    public String[] suits;
-    public ArrayList<Card> deck;
+class CardSet {
+    private ArrayList<Card> deck;
 
     public CardSet () {
-
+        deck = new ArrayList<Card>();
     }
 
     void addCard (Card c) {
@@ -23,10 +22,8 @@ public abstract class CardSet {
         return this.deck.get(index);
     }
 
-    Card getRandomCard () {
-        int idx = (int)(Math.random() * getDeckSize());
-        return getCard(idx);
+    void remove (int index) {
+        this.deck.remove(index);
     }
-
 
 }

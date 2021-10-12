@@ -1,11 +1,11 @@
 package main;
 
-public class Card {
+class Card {
     private Suits suit;    // For poker, suits can be clubs, spades, hearts and diamonds
     private String name;    // Ace, 2, ..., 10, Jack, Queen, King
     private int value;
 
-    public Card (Suits suit, String name, int val) {
+    Card (Suits suit, String name, int val) {
         this.suit = suit;
         this.name = name;
         this.value = val;
