@@ -15,12 +15,12 @@ class Money {
         this.value = value;
     }
 
-    void addValue(int amount) {
-        this.setValue(this.value + amount);
+    void addValue(Money amount) {
+        this.setValue(this.value + amount.getValue());
     }
 
-    void deduct(int amount) {
-        this.setValue(this.value - amount);
+    void deduct(Money amount) {
+        this.setValue(this.value - amount.getValue());
     }
 
     void doubleUp() {
