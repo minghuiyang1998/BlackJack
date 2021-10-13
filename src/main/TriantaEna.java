@@ -28,22 +28,37 @@ class TriantaEna extends AbstractCardGame {
     }
 
     private TriantaEna(
-            TEPlayer[] tePlayers
+            TEPlayer[] tePlayers,
+            TEDealer teDealer,
+            TEReferee teReferee
     ) {
-        super(tePlayers);
+        super(tePlayers, teDealer, teReferee);
     }
     static public TriantaEna getInstance() {
         if (INSTANCE == null) {
             int playersNumb = inquirePlayers();
             TEPlayer[] tePlayers = new TEPlayer[playersNumb];
-            INSTANCE = new TriantaEna(tePlayers);
+            Poker poker = new Poker();
+            TEDealer teDealer = new TEDealer(poker);
+            TEReferee teReferee = new TEReferee();
+            INSTANCE = new TriantaEna(tePlayers, teDealer, teReferee);
         }
         return INSTANCE;
     }
 
     @Override
     void startGame() {
-        System.out.println("TriantaEna starts");
+        boolean isRoundEnd = false;
+        while (!isRoundEnd) {
+            // referee decide isRoundEnd
+            //TODO: get player status to decide player's actionlist
+            PlayerActionType[] actions = new PlayerActionType[] {};
+            PlayerActionType a = chooseAction(actions);
+            //TODO: dealer.react(a)
+            //TODO: referee
+
+        }
+
     }
 
     @Override

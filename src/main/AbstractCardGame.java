@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 abstract class AbstractCardGame {
@@ -8,11 +7,17 @@ abstract class AbstractCardGame {
     private boolean isEnd;
 
     private final AbstractPlayer[] players;
+    private final AbstractDealer dealer;
+    private final Referee referee;
 
     AbstractCardGame(
-            AbstractPlayer[] players
+            AbstractPlayer[] players,
+            AbstractDealer dealer,
+            Referee referee
     ) {
         this.players = players;
+        this.dealer = dealer;
+        this.referee = referee;
         this.isEnd = false;
         this.scanner = new Scanner(System.in);
     }
