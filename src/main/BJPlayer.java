@@ -30,6 +30,10 @@ final class BJPlayer extends AbstractPlayer {
         currentSplit = s;
     }
 
+    public Split getCurrentSplit() {
+        return currentSplit;
+    }
+
     // 监听手上的内容变了更新currentSplit的内容
     private void setCurrent() {
         currentSplit.setCardSet(getCardsInHand());
@@ -73,6 +77,14 @@ final class BJPlayer extends AbstractPlayer {
             }
             setStand(true);
         }
+    }
+
+    public boolean isSplit() {
+        return this.isSplit;
+    }
+
+    public Splits getSplits() {
+        return splits;
     }
 
     public void stand(Split s) {
