@@ -5,6 +5,7 @@ abstract class AbstractPlayer {
     private Money balance;
     private Money bet;
     private CardSet cardsInHand;
+    private boolean stand;
 
     public Money getBalance() {
         return balance;
@@ -15,11 +16,13 @@ abstract class AbstractPlayer {
     public Money getBet() { return bet; }
     public void setBet(Money bet) { this.bet = bet; }
 
+
     AbstractPlayer(String name, int balance) {
         this.name = name;
         this.balance = new Money(balance);
         this.bet = new Money(0);
         this.cardsInHand = new CardSet();
+        this.stand = false;
     }
 
     public CardSet getCardsInHand() {
@@ -32,6 +35,14 @@ abstract class AbstractPlayer {
 
     private void clearCardsHold() {
         cardsInHand.clear();
+    }
+
+    public boolean isStand() {
+        return stand;
+    }
+
+    public void setStand(boolean stand) {
+        this.stand = stand;
     }
 
     private void init() {
@@ -48,7 +59,11 @@ abstract class AbstractPlayer {
         }
     }
 
-     public void hit(Card c) {
+    public void hit(Card c) {
         cardsInHand.addCard(c);
+    }
+
+    public void stand() {
+        setStand(true);
     }
 }

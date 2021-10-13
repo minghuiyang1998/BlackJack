@@ -4,11 +4,13 @@ class Split {
     private final int id;
     private CardSet cardSet;
     private Money bet;
+    private boolean stand;
 
     Split(int id, CardSet cardSet, Money bet) {
         this.id = id;
         this.cardSet = cardSet;
         this.bet = bet;
+        this.stand = false;
     }
 
     public CardSet getCardSet() {
@@ -21,6 +23,14 @@ class Split {
 
     public int getId() {
         return id;
+    }
+
+    public boolean isStand() {
+        return stand;
+    }
+
+    public void setStand(boolean stand) {
+        this.stand = stand;
     }
 
     public Money getBet() {

@@ -17,13 +17,17 @@ abstract class AbstractDealer<T extends CardSet> {
         return cards;
     }
 
-    Card getRandomCard () {
+    Card getRandomCard() {
         /* get a random card from notDealt cardset */
         int idx = (int)(Math.random() * notDealt.getSize());
         Card c = notDealt.getCard(idx);
         notDealt.removeCard(idx);
 
         return c;
+    }
+
+    void setNotDealt(T deck) {
+        this.notDealt = deck;
     }
 
 
