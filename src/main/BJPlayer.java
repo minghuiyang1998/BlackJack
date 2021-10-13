@@ -59,6 +59,22 @@ final class BJPlayer extends AbstractPlayer {
         }
     }
 
+    public void stand() {
+        if (!isSplit) {
+            /* if player has not split, setStand(true) for cardsInHand */
+            setStand(true);
+        }
+        else {
+            /* if and only player's all splits has stand */
+            for(Split s : this.splits.getSplits()) {
+                if (!s.isStand()) {
+                    return;
+                }
+            }
+            setStand(true);
+        }
+    }
+
     public void stand(Split s) {
         s.setStand(true);
     }
