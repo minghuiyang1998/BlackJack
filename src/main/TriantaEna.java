@@ -48,7 +48,17 @@ class TriantaEna extends AbstractCardGame {
 
     @Override
     void startGame() {
-        System.out.println("TriantaEna starts");
+        boolean isRoundEnd = false;
+        while (!isRoundEnd) {
+            // referee decide isRoundEnd
+            //TODO: get player status to decide player's actionlist
+            PlayerActionType[] actions = new PlayerActionType[] {};
+            PlayerActionType a = chooseAction(actions);
+            //TODO: dealer.react(a)
+            //TODO: referee
+
+        }
+
     }
 
     @Override

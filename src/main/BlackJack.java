@@ -4,10 +4,10 @@ class BlackJack extends AbstractCardGame{
    private static BlackJack INSTANCE = null;
    private BlackJack(
            BJPlayer[] players,
-           BJDealer dealer,
-           BJReferee referee
+           BJDealer bjDealer,
+           BJReferee bjReferee
    ) {
-      super(players, dealer, referee);
+      super(players, bjDealer, bjReferee);
    }
 
    static public BlackJack getInstance() {
@@ -30,7 +30,8 @@ class BlackJack extends AbstractCardGame{
          //TODO: get player status to decide player's actionlist
          PlayerActionType[] actions = new PlayerActionType[] {};
          PlayerActionType a = chooseAction(actions);
-         //TODO:
+         //TODO: dealer.react(a)
+         //TODO: referee
 
       }
    }
