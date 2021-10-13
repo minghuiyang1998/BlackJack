@@ -30,9 +30,15 @@ class BlackJack extends AbstractCardGame{
          //TODO: get player status to decide player's actionlist
          PlayerActionType[] actions = new PlayerActionType[] {};
          PlayerActionType a = chooseAction(actions);
+         //TODO: player.play(a)
          //TODO: dealer.react(a)
-         //TODO: referee
-
+         //TODO:boolean result = referee.judge()
+         //TODO: printTable()
+         /**
+          * if(result) {
+          *    isRoundEnd = true;
+          * }
+          * */
       }
    }
 
