@@ -1,6 +1,8 @@
 package main;
 
 class BJReferee implements Referee {
+    final int bustVal = 21;
+
 
     @Override
     public int getValue(Card c) {
@@ -29,6 +31,9 @@ class BJReferee implements Referee {
 
     @Override
     public boolean isBust(CardSet hand) {
+        if (getValue(hand) > this.bustVal) {
+            return true;
+        }
         return false;
     }
 
