@@ -20,9 +20,11 @@ class BJReferee implements Referee {
     @Override
     public boolean isAllStand(AbstractPlayer[] players) {
         for (AbstractPlayer p : players) {
-
+            if (!p.isStand()) {
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 
     @Override
