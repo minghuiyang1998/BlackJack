@@ -28,15 +28,20 @@ class TriantaEna extends AbstractCardGame {
     }
 
     private TriantaEna(
-            TEPlayer[] tePlayers
+            TEPlayer[] tePlayers,
+            TEDealer teDealer,
+            TEReferee teReferee
     ) {
-        super(tePlayers, dealer, referee);
+        super(tePlayers, teDealer, teReferee);
     }
     static public TriantaEna getInstance() {
         if (INSTANCE == null) {
             int playersNumb = inquirePlayers();
             TEPlayer[] tePlayers = new TEPlayer[playersNumb];
-            INSTANCE = new TriantaEna(tePlayers);
+            Poker poker = new Poker();
+            TEDealer teDealer = new TEDealer(poker);
+            TEReferee teReferee = new TEReferee();
+            INSTANCE = new TriantaEna(tePlayers, teDealer, teReferee);
         }
         return INSTANCE;
     }
