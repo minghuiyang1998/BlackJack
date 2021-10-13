@@ -18,29 +18,27 @@ class BlackJack extends AbstractCardGame{
       return INSTANCE;
    }
 
-   private PlayerActions chooseAction() {
+   private PlayerActionType chooseAction(PlayerActionType[] actions) {
       Scanner scanner = new Scanner(System.in);
-      System.out.println("Please select a game id: ");
-      PlayerActions[] actions = PlayerActions.values();
-      for (PlayerActions a : actions) {
-         System.out.println(a.getId() + ": " + t.getName());
+      System.out.println("Please select a action id: ");
+      for (int i = 0; i < actions.length; i++) {
+         System.out.println(i + ": " + actions[i].getName());
       }
 
       int id = -1;
-      while (id > types.length || id < 0) {
-         String gameID = scanner.nextLine();
+      while (id > actions.length || id < 0) {
+         String actionID = scanner.nextLine();
          try {
-            id = Integer.parseInt(gameID);
+            id = Integer.parseInt(actionID);
          } catch (NumberFormatException e) {
             System.out.println("invalid input, please enter an integer!");
          }
 
-         if (id > types.length || id < 0) {
+         if (id > actions.length || id < 0) {
             System.out.println("invalid input, please enter a valid integer!");
          }
       }
-
-      return ;
+      return actions[id];
    }
 
 
