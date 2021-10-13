@@ -30,7 +30,7 @@ class TriantaEna extends AbstractCardGame {
     private TriantaEna(
             TEPlayer[] tePlayers
     ) {
-        super(tePlayers);
+        super(tePlayers, dealer, referee);
     }
     static public TriantaEna getInstance() {
         if (INSTANCE == null) {
