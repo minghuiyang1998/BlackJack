@@ -35,7 +35,6 @@ abstract class AbstractCardGame {
     }
     
     private PlayerActionType chooseAction(PlayerActionType[] actions) {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Please select a action id: ");
         for (int i = 0; i < actions.length; i++) {
             System.out.println(i + ": " + actions[i].getName());

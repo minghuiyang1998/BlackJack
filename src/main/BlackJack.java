@@ -1,7 +1,5 @@
 package main;
 
-import java.util.Scanner;
-
 class BlackJack extends AbstractCardGame{
    private static BlackJack INSTANCE = null;
    private BlackJack(
