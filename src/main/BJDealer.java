@@ -14,4 +14,7 @@ class BJDealer extends AbstractDealer {
         this.cardsInHand.addCard(c);
     }
 
+    public CardSet getCardsInHand() {
+        return cardsInHand;
+    }
 }
