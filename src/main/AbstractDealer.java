@@ -1,9 +1,9 @@
 package main;
 
-abstract class AbstractDealer<T extends CardSet> {
-    T notDealt;
+abstract class AbstractDealer {
+    CardSet notDealt;
 
-    AbstractDealer(T deck) {
+    AbstractDealer(CardSet deck) {
         this.notDealt = deck;
     }
 
@@ -26,7 +26,7 @@ abstract class AbstractDealer<T extends CardSet> {
         return c;
     }
 
-    void setNotDealt(T deck) {
+    void setNotDealt(CardSet deck) {
         this.notDealt = deck;
     }
 
