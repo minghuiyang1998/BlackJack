@@ -45,4 +45,9 @@ class TriantaEna extends AbstractCardGame {
     void startGame() {
         System.out.println("TriantaEna starts");
     }
+
+    @Override
+    void resetGame() {
+
+    }
 }

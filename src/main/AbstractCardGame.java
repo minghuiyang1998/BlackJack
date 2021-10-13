@@ -33,18 +33,44 @@ abstract class AbstractCardGame {
         }
         return isExit;
     }
+    
+    PlayerActionType chooseAction(PlayerActionType[] actions) {
+        System.out.println("Please select a action id: ");
+        for (int i = 0; i < actions.length; i++) {
+            System.out.println(i + ": " + actions[i].getName());
+        }
+
+        int id = -1;
+        while (id > actions.length || id < 0) {
+            String actionID = scanner.nextLine();
+            try {
+                id = Integer.parseInt(actionID);
+            } catch (NumberFormatException e) {
+                System.out.println("invalid input, please enter an integer!");
+            }
+
+            if (id > actions.length || id < 0) {
+                System.out.println("invalid input, please enter a valid integer!");
+            }
+        }
+        return actions[id];
+    }
 
     abstract void startGame();
+    abstract void resetGame();
+
+    public AbstractPlayer[] getPlayers() {
+        return players;
+    }
 
     void start() {
-          this.startGame();
-//        while (!isEnd) {
-//            this.startGame();
-//            if (inquireIsExit()) {
-//                resetGame();
-//            } else {
-//                isEnd = true;
-//            }
-//        }
+        while (!isEnd) {
+            this.startGame();
+            if (inquireIsExit()) {
+                resetGame();
+            } else {
+                isEnd = true;
+            }
+        }
     }
 }
