@@ -34,7 +34,7 @@ abstract class AbstractCardGame {
         return isExit;
     }
     
-    private PlayerActionType chooseAction(PlayerActionType[] actions) {
+    PlayerActionType chooseAction(PlayerActionType[] actions) {
         System.out.println("Please select a action id: ");
         for (int i = 0; i < actions.length; i++) {
             System.out.println(i + ": " + actions[i].getName());
@@ -57,20 +57,20 @@ abstract class AbstractCardGame {
     }
 
     abstract void startGame();
+    abstract void resetGame();
 
     public AbstractPlayer[] getPlayers() {
         return players;
     }
 
     void start() {
-          this.startGame();
-//        while (!isEnd) {
-//            this.startGame();
-//            if (inquireIsExit()) {
-//                resetGame();
-//            } else {
-//                isEnd = true;
-//            }
-//        }
+        while (!isEnd) {
+            this.startGame();
+            if (inquireIsExit()) {
+                resetGame();
+            } else {
+                isEnd = true;
+            }
+        }
     }
 }

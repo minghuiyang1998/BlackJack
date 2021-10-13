@@ -17,10 +17,21 @@ class BlackJack extends AbstractCardGame{
    }
 
 
-
    @Override
    void startGame() {
-      System.out.println("BlackJack starts");
+      boolean isRoundEnd = false;
+      while (!isRoundEnd) {
+         // referee decide isRoundEnd
+         //TODO: get player status to decide player's actionlist
+         PlayerActionType[] actions = new PlayerActionType[] {};
+         PlayerActionType a = chooseAction(actions);
+
+
+      }
+   }
+
+   @Override
+   void resetGame() {
 
    }
 }
