@@ -29,4 +29,8 @@ class CardSet {
     void clear() {
         deck.clear();
     }
+
+    ArrayList<Card> getDeck() {
+        return this.deck;
+    }
 }
