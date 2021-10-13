@@ -1,16 +1,7 @@
 package main;
 
 final class Poker extends CardSet {
-    private static Poker INSTANCE = null;
-
-    public static Poker getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new Poker();
-        }
-        return INSTANCE;
-    }
-
-    private Poker() {
+    Poker() {
         int n = 10;
 
         for (int i = 0; i < Suits.values().length; i++) {
