@@ -6,17 +6,17 @@ class Splits {
     private static int splitId = 0;
     private final ArrayList<Split> splits;
 
-    Splits(CardSet cardSet) {
-        splits = splitCards(cardSet);
+    Splits(CardSet cardSet, Money bet) {
+        splits = splitCards(cardSet, bet);
     }
 
-    private static ArrayList<Split> splitCards(CardSet cardSet) {
+    private static ArrayList<Split> splitCards(CardSet cardSet, Money bet) {
         ArrayList<Split> arrayList = new ArrayList<>();
         for (int i = 0; i < cardSet.getSize(); i++) {
             Card c = cardSet.getCard(i);
             CardSet newCardSet = new CardSet();
             newCardSet.addCard(c);
-            Split s = new Split(splitId, newCardSet, new Money(0)); // TODO: initial bet for each split?
+            Split s = new Split(splitId, newCardSet, bet); // TODO: initial bet for each split?
             splitId += 1; //不能直接用序号，因为多次split序号会重复
             arrayList.add(s);
         }
@@ -31,7 +31,7 @@ class Splits {
                 break;
             }
         }
-        ArrayList<Split> list = Splits.splitCards(temp.getCardSet());
+        ArrayList<Split> list = Splits.splitCards(temp.getCardSet(), temp.getBet());
         int currIndex = splits.size();
         splits.addAll(list);
         return splits.get(currIndex); // TODO: catch error

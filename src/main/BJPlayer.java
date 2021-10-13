@@ -14,7 +14,7 @@ final class BJPlayer extends AbstractPlayer {
         // 1st time to split
         if (!isSplit) {
             isSplit = true;
-            splits = new Splits(getCardsInHand());
+            splits = new Splits(getCardsInHand(), getBet());
             Split firstSplit = splits.getSplit(0);
             setCurrentSplit(firstSplit); // TODO: set the 1st split as default?
         } else {
@@ -57,5 +57,9 @@ final class BJPlayer extends AbstractPlayer {
         if (isSplit) {
             setCurrent();
         }
+    }
+
+    public void stand(Split s) {
+        s.setStand(true);
     }
 }
