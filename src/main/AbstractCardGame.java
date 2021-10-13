@@ -36,6 +36,10 @@ abstract class AbstractCardGame {
 
     abstract void startGame();
 
+    public AbstractPlayer[] getPlayers() {
+        return players;
+    }
+
     void start() {
           this.startGame();
 //        while (!isEnd) {

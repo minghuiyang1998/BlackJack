@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 class BlackJack extends AbstractCardGame{
@@ -17,8 +16,33 @@ class BlackJack extends AbstractCardGame{
          INSTANCE = new BlackJack(bjPlayers);
       }
       return INSTANCE;
-
    }
+
+   private PlayerActions chooseAction() {
+      Scanner scanner = new Scanner(System.in);
+      System.out.println("Please select a game id: ");
+      PlayerActions[] actions = PlayerActions.values();
+      for (PlayerActions a : actions) {
+         System.out.println(a.getId() + ": " + t.getName());
+      }
+
+      int id = -1;
+      while (id > types.length || id < 0) {
+         String gameID = scanner.nextLine();
+         try {
+            id = Integer.parseInt(gameID);
+         } catch (NumberFormatException e) {
+            System.out.println("invalid input, please enter an integer!");
+         }
+
+         if (id > types.length || id < 0) {
+            System.out.println("invalid input, please enter a valid integer!");
+         }
+      }
+
+      return ;
+   }
+
 
    @Override
    void startGame() {
