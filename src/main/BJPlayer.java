@@ -1,65 +1,88 @@
 package main;
 
+import java.util.ArrayList;
+
 final class BJPlayer extends AbstractPlayer {
-    private boolean isSplit = false;
-    private Splits splits = null;
-    private Split currentSplit;
+    private ArrayList<Hand> hands = new ArrayList<>();
+    private int currIndex = 0;
 
     BJPlayer(String name, int balance) {
         super(name, balance);
     }
 
-    // 每次都选出当前操作的split然后用setCurrentSplit更新当前player的操作数据
-    private void split() {
-        // 1st time to split
-        if (!isSplit) {
-            isSplit = true;
-            splits = new Splits(getCardsInHand(), getBet());
-            Split firstSplit = splits.getSplit(0);
-            setCurrentSplit(firstSplit); // TODO: set the 1st split as default?
+    public boolean changeHand() {
+        //TODO:一定要换一只没问题的手，如果没有可用的手，currentIndex -1
+
+    }
+
+    public ArrayList<Hand> getHands() {
+        return hands;
+    }
+
+    public Hand getHand() {
+        return hands.get(currIndex);
+    }
+
+    public void reset() {
+        this.hands = new ArrayList<>();
+        currIndex = 0;
+    }
+
+    public void setBet(Money bet) {
+        if (hands.size() <= 0) {
+            Hand temp = new Hand(bet);
+            hands.add(temp);
         } else {
-            // 2nd+ split, split curr and append
-            currentSplit = splits.splitAndAppend(currentSplit);
+            Hand curr = hands.get(currIndex);
+            curr.setBet(bet);
         }
     }
 
-    // 监听currentSplit变了更新手上的内容
-    private void setCurrentSplit(Split s) {
-        setCardsInHand(s.getCardSet());
-        setBet(s.getBet());
-        currentSplit = s;
-    }
-
-    // 监听手上的内容变了更新currentSplit的内容
-    private void setCurrent() {
-        currentSplit.setCardSet(getCardsInHand());
-        currentSplit.setBet(getBet());
-    }
-
-    private void doubleUp(Card c) {
-        getBet().doubleUp();
-        hit(c);
-    }
-
-    @Override
     public void hit(Card c) {
-        // 更新手上的牌
-        super.hit(c);
-        // 更新splits里面的数据
-        if (isSplit) {
-            setCurrent();
-        }
+        Hand curr = hands.get(currIndex);
+        curr.hit(c);
     }
 
-    @Override
-    public void deal(Card[] cards) {
-        super.deal(cards);
-        if (isSplit) {
-            setCurrent();
+    public void split(Card[] cards) {
+        if (cards.length < 2) {
+            System.out.println("invalid value");
+            return;
         }
+        Hand curr = hands.get(currIndex);
+        Hand splitedHand = curr.split();
+        curr.deal(new Card[]{cards[0]});
+        splitedHand.deal(new Card[]{cards[1]});
+        splitedHand.setBet(curr.getBet());
+        hands.add(splitedHand);
     }
 
-    public void stand(Split s) {
-        s.setStand(true);
+    public void deal(Card[]cards) {
+        Hand curr = hands.get(currIndex);
+        curr.deal(cards);
     }
+
+    public void standCurr() {
+        Hand curr = hands.get(currIndex);
+        curr.stand();
+    }
+
+    public void doubleUp(Card c) {
+        Hand curr = hands.get(currIndex);
+        curr.doubleUp(c);
+    }
+
+    public void setCurrBust(boolean bust) {
+        Hand curr = hands.get(currIndex);
+        curr.setBust(bust);
+    }
+
+    public boolean isCurrBust() {
+        Hand curr = hands.get(currIndex);
+        return curr.isBust();
+    }
+    public boolean isCurrStand() {
+        Hand curr = hands.get(currIndex);
+        return curr.isStand();
+    }
+
 }

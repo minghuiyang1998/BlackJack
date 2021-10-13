@@ -70,7 +70,7 @@ abstract class AbstractCardGame {
 
     void start() {
         while (!isEnd) {
-            this.startGame();
+            startGame();
             if (inquireIsExit()) {
                 resetGame();
             } else {

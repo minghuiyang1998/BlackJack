@@ -58,6 +58,24 @@ class TriantaEna extends AbstractCardGame {
             //TODO: referee
 
         }
+        /**
+         * for all players currIndex = -1 -> dealer
+         * while (!isExceeded) { //17
+         *    dealer.addCard()
+         * }
+         *
+         * isDealerBust = referee.isBust(dealer hand) //dealer
+         * if (isDealerBust) {
+         *    all players' hands win
+         *    (TE记得给钱）
+         * } else {
+         *
+         *
+         * }
+         *
+         *
+         *
+         */
 
     }
 

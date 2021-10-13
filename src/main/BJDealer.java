@@ -1,6 +1,7 @@
 package main;
 
 class BJDealer extends AbstractDealer {
+    // TODO: change to hand
     CardSet cardsInHand;
 
     BJDealer(Poker deck) {
