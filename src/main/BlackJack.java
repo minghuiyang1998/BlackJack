@@ -1,5 +1,7 @@
 package main;
 
+import java.lang.reflect.ParameterizedType;
+
 class BlackJack extends AbstractCardGame{
    private static BlackJack INSTANCE = null;
    private final BJPlayer[] bjPlayers;
@@ -32,6 +34,17 @@ class BlackJack extends AbstractCardGame{
       return INSTANCE;
    }
 
+   private PlayerActionType[] renderActionList(BJPlayer p) {
+      // TODO：get player status to decide player's actionlist
+
+      //  根据player现在的状态
+      //  超过两张不能doubleup，
+      //  如果有两张牌且两张是一样且就能split
+      PlayerActionType[] actions = new PlayerActionType[]{};
+
+      return actions;
+   }
+
    @Override
    void startGame() {
       //TODO: all player set bet
@@ -41,11 +54,7 @@ class BlackJack extends AbstractCardGame{
             //TODO:referee 判断player能不能玩不能就 continue；
             // Whole player all hanged: isStand or isBust: getHands() -> referee
 
-            // TODO：get player status to decide player's actionlist
-            //  根据player现在的状态
-            //  超过两张不能doubleup，
-            //  如果有两张牌且两张是一样且就能split
-            PlayerActionType[] actions = new PlayerActionType[]{};
+            PlayerActionType[] actions = renderActionList();
             PlayerActionType a = chooseAction(actions);
             switch (a) {
                case HIT:

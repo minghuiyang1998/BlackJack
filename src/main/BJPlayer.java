@@ -11,8 +11,22 @@ final class BJPlayer extends AbstractPlayer {
     }
 
     public boolean changeHand() {
-        //TODO:一定要换一只没问题的手，如果没有可用的手，currentIndex -1
-
+        int result = -1;
+        for (int i = 0; i < hands.size() ; i++) {
+            Hand temp = hands.get(i);
+            boolean isStand = temp.isStand();
+            boolean isBust = temp.isBust();
+            if (!isBust && !isStand) {
+                result = i;
+                break;
+            }
+        }
+        currIndex = result; // when this var == -1, hands are all unavail
+        boolean returnVal = true;
+        if (result == -1) {
+            returnVal = false;
+        }
+        return returnVal;
     }
 
     public ArrayList<Hand> getHands() {
