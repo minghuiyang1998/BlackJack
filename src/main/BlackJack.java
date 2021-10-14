@@ -1,6 +1,9 @@
 package main;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+
+import static main.PlayerActionType.*;
 
 class BlackJack extends AbstractCardGame{
    private static BlackJack INSTANCE = null;
@@ -34,15 +37,25 @@ class BlackJack extends AbstractCardGame{
       return INSTANCE;
    }
 
-   private PlayerActionType[] renderActionList(BJPlayer p) {
-      // TODO：get player status to decide player's actionlist
+   private ArrayList<PlayerActionType> renderActionList(BJPlayer p) {
+      // default list
+      ArrayList<PlayerActionType> def = new ArrayList<>();
+      def.add(HIT);
+      def.add(STAND);
 
-      //  根据player现在的状态
-      //  超过两张不能doubleup，
-      //  如果有两张牌且两张是一样且就能split
-      PlayerActionType[] actions = new PlayerActionType[]{};
+      Hand hand = p.getHand();
+      ArrayList<Card> cards = hand.getDeck();
+      if (cards.size() == 1) {
+          def.add(DOUBLEUP);
+      }
+      if (cards.size() == 2) {
+         boolean isSame = cards.get(0).getValue() == cards.get(1).getValue();
+         if (isSame) {
+             def.add(SPLIT);
+         }
+      }
 
-      return actions;
+      return def;
    }
 
    @Override
@@ -54,7 +67,7 @@ class BlackJack extends AbstractCardGame{
             //TODO:referee 判断player能不能玩不能就 continue；
             // Whole player all hanged: isStand or isBust: getHands() -> referee
 
-            PlayerActionType[] actions = renderActionList();
+            ArrayList<PlayerActionType> actions = renderActionList(p);
             PlayerActionType a = chooseAction(actions);
             switch (a) {
                case HIT:
