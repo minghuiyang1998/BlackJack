@@ -6,18 +6,7 @@ abstract class AbstractCardGame {
     private final Scanner scanner;
     private boolean isEnd;
 
-    private final AbstractPlayer[] players;
-    private final AbstractDealer dealer;
-    private final Referee referee;
-
-    AbstractCardGame(
-            AbstractPlayer[] players,
-            AbstractDealer dealer,
-            Referee referee
-    ) {
-        this.players = players;
-        this.dealer = dealer;
-        this.referee = referee;
+    AbstractCardGame() {
         this.isEnd = false;
         this.scanner = new Scanner(System.in);
     }
@@ -64,13 +53,9 @@ abstract class AbstractCardGame {
     abstract void startGame();
     abstract void resetGame();
 
-    public AbstractPlayer[] getPlayers() {
-        return players;
-    }
-
     void start() {
         while (!isEnd) {
-            this.startGame();
+            startGame();
             if (inquireIsExit()) {
                 resetGame();
             } else {
