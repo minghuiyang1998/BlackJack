@@ -1,7 +1,8 @@
 package main;
 
+import java.util.ArrayList;
+
 class Hand extends CardSet {
-    private int id;
     private Money bet;
     private boolean isStand;
     private boolean isBust;
@@ -38,16 +39,21 @@ class Hand extends CardSet {
     }
 
     public void hit(Card c) {
-
+        getDeck().add(c);
     }
 
     public Hand split() {
-        //TODO: 剩下一半在现在的cardset
-        return null;
+        ArrayList<Card> temp = getDeck();
+        Card secondCard = temp.remove(temp.size() - 1);
+        Hand newHand = new Hand(new Money(bet.getValue()));
+        newHand.deal(new Card[]{secondCard});
+        return newHand;
     }
 
     public void deal(Card[] cards) {
-
+        for (Card c: cards) {
+            getDeck().add(c);
+        }
     }
 
     public void stand() {
@@ -55,6 +61,7 @@ class Hand extends CardSet {
     }
 
     public void doubleUp(Card c) {
-        //TODO: double bet
+        getDeck().add(c);
+        setBet(new Money(bet.getValue() * 2));
     }
 }

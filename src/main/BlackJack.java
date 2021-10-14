@@ -44,7 +44,7 @@ class BlackJack extends AbstractCardGame{
             // TODO：get player status to decide player's actionlist
             //  根据player现在的状态
             //  超过两张不能doubleup，
-            //  如果两张是一样且就能split
+            //  如果有两张牌且两张是一样且就能split
             PlayerActionType[] actions = new PlayerActionType[]{};
             PlayerActionType a = chooseAction(actions);
             switch (a) {
