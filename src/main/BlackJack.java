@@ -2,19 +2,28 @@ package main;
 
 class BlackJack extends AbstractCardGame{
    private static BlackJack INSTANCE = null;
+   private final BJPlayer[] bjPlayers;
+   private final BJDealer dealer;
+   private final BJReferee referee;
+
    private BlackJack(
-           BJPlayer[] players,
+           BJPlayer[] bjPlayers,
            BJDealer bjDealer,
            BJReferee bjReferee
    ) {
-      super(players, bjDealer, bjReferee);
+      super();
+      this.bjPlayers = bjPlayers;
+      this.dealer = bjDealer;
+      this.referee = bjReferee;
    }
 
    static public BlackJack getInstance() {
       if (INSTANCE == null) {
          final int LEN = 2;
          BJPlayer[] bjPlayers = new BJPlayer[LEN];
-         //TODO: init player set balance
+         for (int i = 0; i < LEN; i++) {
+            bjPlayers[i] = new BJPlayer("Player " + i, 100);
+         }
          Poker poker = new Poker();
          BJDealer bjDealer = new BJDealer(poker);
          BJReferee bjReferee = new BJReferee();
@@ -28,7 +37,7 @@ class BlackJack extends AbstractCardGame{
       //TODO: all player set bet
       boolean isRoundEnd = false;
       while (isRoundEnd) {//all player win/lose/push referee decide isRoundEnd
-         for (AbstractPlayer p : getPlayers()) {
+         for (BJPlayer p : bjPlayers) {
             //TODO:referee 判断player能不能玩不能就 continue；
             // Whole player all hanged: isStand or isBust: getHands() -> referee
 
@@ -40,12 +49,12 @@ class BlackJack extends AbstractCardGame{
             PlayerActionType a = chooseAction(actions);
             switch (a) {
                case HIT:
-                  //dealer
+                  // dealer
                   // player
                   break;
                case STAND:
-                  //standCurr true
-                  //change current hand
+                   p.standCurr();
+                   p.changeHand();
                   break;
                case SPLIT:
                   // TODO: before player.split(cards) 判断一下balance够不够
