@@ -7,8 +7,8 @@ import static main.PlayerActionType.*;
 
 class TriantaEna extends AbstractCardGame {
     private static TriantaEna INSTANCE = null;
-    private final ArrayList<TEPlayer> tePlayers;
-    private final TEDealer teDealer;
+    private ArrayList<TEPlayer> tePlayers;
+    private TEDealer teDealer;
     private final TEReferee teReferee;
     private PlayerActionType[] actionArray = {HIT, STAND, DEAL};
     private final ArrayList<PlayerActionType> actions = new ArrayList<>(Arrays.asList(actionArray));
@@ -60,8 +60,16 @@ class TriantaEna extends AbstractCardGame {
         return INSTANCE;
     }
 
-    void switchDealer() {
-        // TODO: when the player has greater amount of money than current banker
+    void switchDealer(int playerIndex) {
+        // TODO:  find the player with specified conditions:
+        //  when the player has greater amount of money than current banker
+        TEPlayer player = tePlayers.get(playerIndex);
+        // dealer is actually initialized here if there is some player becomes a dealer
+        TEPlayer formerDealer = new TEPlayer(teDealer.getName(), teDealer.getBank().getValue());
+        teDealer = new TEDealer(player.getName(), player.getBalance(), new Poker());
+        tePlayers.add(playerIndex, formerDealer);
+        // TODO: check whether remove index is correct
+        tePlayers.remove(playerIndex + 1);
 
     }
 
@@ -96,6 +104,34 @@ class TriantaEna extends AbstractCardGame {
 
     private void printTable(){
         // TODO: printTable
+        System.out.println("Banker:");
+        ArrayList<Card> dealerCards = teDealer.getHand().getDeck();
+        for (Card c: dealerCards) {
+            if (c.isShown()) {
+                System.out.print(c.getSuit() + c.getName()+ " ");
+            }
+        }
+        System.out.println();
+
+        for (TEPlayer p: tePlayers) {
+            System.out.println(p.getName() + " " + "Balance:" + p.getBalance() + " ");
+            Hand hand = p.getHand();
+            System.out.print("Bet: " + hand.getBet().getValue() + " Cards: ");
+            ArrayList<Card> pCards = hand.getDeck();
+            for (Card c: pCards) {
+                if (c.isShown()) {
+                    System.out.print(c.getSuit() + c.getName() + " ");
+                }
+            }
+            if (hand.isBust()) {
+                System.out.print("<Bust> ");
+            }
+            if (hand.isStand()) {
+                System.out.print("<Stand> ");
+            }
+            System.out.println();
+
+        }
     }
 
     @Override
@@ -166,9 +202,9 @@ class TriantaEna extends AbstractCardGame {
             }
             isRoundEnd = true;
         }
-        // TODO: see if any player's balance
-        // let player to decide whether to
-
+        // TODO: see if any player's balance exceed banker
+        // let player to decide whether to be a banker
+        
     }
 
     @Override
