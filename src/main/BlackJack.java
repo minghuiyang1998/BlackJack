@@ -165,7 +165,7 @@ class BlackJack extends AbstractCardGame{
    @Override
    void startGame() {
       for (BJPlayer p: bjPlayers) {
-         System.out.print(p.getName() + " ");
+         System.out.print(p.getName() + "(Balance: " + p.getBalance() + ") " );
          Money bet = inquireBet();
          p.setBet(bet);// if hands is null, it will add a new hand and set bet
       }
