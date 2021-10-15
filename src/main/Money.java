@@ -18,4 +18,8 @@ class Money {
     public void doubleUp() {
         value *= 2;
     }
+
+    public void add(Money m) {
+        this.setValue(this.getValue() + m.getValue());
+    }
 }
