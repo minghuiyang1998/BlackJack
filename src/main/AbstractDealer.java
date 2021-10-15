@@ -18,13 +18,12 @@ abstract class AbstractDealer {
         for (int i = 0; i < n; i++) {
             cards.add(getRandomCard());
         }
-
         return cards;
     }
 
     Card getRandomCard() {
         /* get a random card from notDealt cardset */
-        int idx = ThreadLocalRandom.current().nextInt() * notDealt.getSize();
+        int idx = ThreadLocalRandom.current().nextInt(notDealt.getSize());
         Card c = notDealt.removeCard(idx);
         return c;
     }
