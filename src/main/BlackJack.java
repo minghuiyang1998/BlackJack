@@ -81,7 +81,8 @@ class BlackJack extends AbstractCardGame{
              if (p.getBalance() < p.getBet().getValue()) {
                  isActionSucceed = false;
              } else {
-                p.split();
+                ArrayList<Card> cards = bjDealer.deal(2);
+                p.split(cards);
                 isActionSucceed = true;
              }
             break;

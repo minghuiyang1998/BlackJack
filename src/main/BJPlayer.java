@@ -67,21 +67,18 @@ final class BJPlayer extends AbstractPlayer {
         curr.hit(c);
     }
 
-    public void split() {
+    public void split(ArrayList<Card> cards) {
         Hand curr = hands.get(currIndex);
-        ArrayList<Card> cards = curr.getDeck();
-        if (cards.size() < 2) {
+        ArrayList<Card> cardsInHand = curr.getDeck();
+        if (cardsInHand.size() < 2) {
             System.out.println("invalid value");
             return;
         }
         Hand splitedHand = curr.split();
-        ArrayList<Card> first = new ArrayList<>();
-        first.add(cards.get(0));
-        ArrayList<Card> second = new ArrayList<>();
-        second.add(cards.get(1));
-        curr.deal(first);
-        splitedHand.deal(second);
+        curr.hit(cards.get(0));
+        splitedHand.hit(cards.get(1));
         splitedHand.setBet(curr.getBet());
+        setBalance(getBalance() - curr.getBet().getValue());
         hands.add(splitedHand);
     }
 
@@ -98,6 +95,7 @@ final class BJPlayer extends AbstractPlayer {
     public void doubleUp(Card c) {
         Hand curr = hands.get(currIndex);
         curr.doubleUp(c);
+        setBalance(getBalance() - curr.getBet().getValue());
     }
 
     public void setCurrBust(boolean bust) {
