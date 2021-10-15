@@ -11,6 +11,7 @@ interface Referee<T extends AbstractPlayer> {
         int sum = 0;
         ArrayList<Card> cards = hand.getDeck();
         for (Card c: cards) {
+            // TODO: if card = Ace
             sum += c.getValue();
         }
         return sum;

@@ -11,12 +11,10 @@ class TriantaEna extends AbstractCardGame {
     private ArrayList<TEPlayer> tePlayers;
     private TEDealer teDealer;
     private final TEReferee teReferee;
-    private PlayerActionType[] actionArray = {HIT, STAND, DEAL};
-    private final ArrayList<PlayerActionType> actions = new ArrayList<>(Arrays.asList(actionArray));
 
     private static int inquirePlayers() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter the amount for players(up to 9): ");
+        System.out.println("Please enter the number for players(up to 9, including dealer): ");
         final int MAX = 9;
         final int MIN = 1;
         int x = 0;
@@ -54,7 +52,7 @@ class TriantaEna extends AbstractCardGame {
                 tePlayers.add(new TEPlayer("TEPlayer " + i, 100));
             }
             Poker poker = new Poker();
-            // TODO: init dealer with the player who has highest balance
+            // init dealer with the player who has highest balance
             // Sort tePlayers in descending order
             Collections.sort(tePlayers);
             TEDealer teDealer = new TEDealer(tePlayers.get(0).getName(), tePlayers.get(0).getBalance(), poker);
@@ -65,6 +63,24 @@ class TriantaEna extends AbstractCardGame {
         return INSTANCE;
     }
 
+    private ArrayList<PlayerActionType> renderActionList(TEPlayer p) {
+        // default list
+        ArrayList<PlayerActionType> def = new ArrayList<>();
+        Hand hand = p.getHand();
+        ArrayList<Card> cards = hand.getDeck();
+        final int CARDS_LEN = cards.size();
+
+        if (CARDS_LEN <= 0) {
+            def.add(DEAL);
+        } else {
+            def.add(HIT);
+            def.add(STAND);
+        }
+
+        return def;
+    }
+
+     @Override
     public Money inquireBet(int balance) {
         System.out.println("Please negotiate on bet amount(at least 1):");
         Scanner scanner = new Scanner(System.in);
@@ -104,7 +120,7 @@ class TriantaEna extends AbstractCardGame {
     }
 
     void switchDealer(int playerIndex) {
-        // TODO:  find the player with specified conditions:
+        //  find the player with specified conditions:
         //  when the player has greater amount of money than current banker
         TEPlayer player = tePlayers.get(playerIndex);
         // dealer is actually initialized here if there is some player becomes a dealer
@@ -117,8 +133,9 @@ class TriantaEna extends AbstractCardGame {
     }
 
     private void playAction(TEPlayer p) {
-        System.out.print(p.getName() + ", ");
-        PlayerActionType a = chooseAction(this.actions);
+        ArrayList<PlayerActionType> actions = renderActionList(p);
+        PlayerActionType a = chooseAction(actions);
+        System.out.print(p.getName() + " ");
         switch (a) {
             case HIT:
                 Card card = teDealer.getRandomCard();
@@ -179,8 +196,8 @@ class TriantaEna extends AbstractCardGame {
 
     @Override
     void startGame() {
-        // TODO: can the player who has least amount of money be a banker?
-        // TODO: keep inquiring bet if n * bet exceeds banker's bank?
+        // can the player who has least amount of money be a banker?
+        // keep inquiring bet if n * bet exceeds banker's bank?
         System.out.println("Dealer: " + teDealer.getName() + "(Balance: " + teDealer.getBank() + ")");
         for (TEPlayer p: tePlayers) {
             System.out.print(p.getName() + "(Balance: " + p.getBalance() + ") " );
@@ -190,9 +207,9 @@ class TriantaEna extends AbstractCardGame {
         int minBalance = tePlayers.get(tePlayers.size() - 1).getBalance(); // min balance amount of all current players
         Money bet = inquireBet(minBalance);
         // Dealer set bet
-        Money dealerBet = new Money(bet.getValue() * tePlayers.size());
-        teDealer.setBank(teDealer.getBank() - bet.getValue());
-        teDealer.setBet(dealerBet);
+        int dealerBet = bet.getValue() * tePlayers.size();
+        teDealer.setBank(teDealer.getBank() - dealerBet);
+        teDealer.setBet(new Money(dealerBet));
         System.out.println("Dealer: " + teDealer.getName() + "(Balance: " + teDealer.getBank() + ")");
         // Player set bet
         for (TEPlayer p: tePlayers) {
@@ -231,7 +248,6 @@ class TriantaEna extends AbstractCardGame {
             printTable();
 
             boolean isDealerBust = teReferee.isBust(teDealer.getHand());
-            // TODO: calc money dealer have to send
 
             if (isDealerBust) {
                 System.out.println("All stand players win!");
@@ -242,8 +258,6 @@ class TriantaEna extends AbstractCardGame {
                         win = h.getBet().getValue() * 2;
                     }
                     p.setBalance(p.getBalance() + win);
-                    // TODO: update dealer bank
-
                 }
             } else {
                 boolean dealerWin = true;
@@ -273,7 +287,7 @@ class TriantaEna extends AbstractCardGame {
             p.reset();
         }
         teDealer.reset();
-        // TODO: see if any player's balance exceed banker
+        // see if any player's balance exceed banker
         // let player to decide whether to be a banker
         Collections.sort(tePlayers);
         for (int i = 0; i < tePlayers.size(); i++) {

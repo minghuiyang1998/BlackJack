@@ -27,7 +27,6 @@ class TEReferee implements Referee<TEPlayer> {
 
     @Override
     public boolean isPlayerStop(TEPlayer player) {
-        // TODO
         if (player.getHand().isStand() || player.getHand().isBust()) {
             return true;
         }
