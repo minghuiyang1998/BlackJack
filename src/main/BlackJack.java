@@ -99,6 +99,10 @@ class BlackJack extends AbstractCardGame{
       return isActionSucceed;
    }
 
+   private void printTable() {
+
+   }
+
    @Override
    void startGame() {
       for (BJPlayer p: bjPlayers) {
@@ -158,12 +162,9 @@ class BlackJack extends AbstractCardGame{
 
    @Override
    void resetGame() {
-       /**
-        * for players
-        *   player.reset()
-        *
-        * dealer.reset() //换一副牌
-        *
-        * */
+      for (BJPlayer p: bjPlayers) {
+         p.reset();
+      }
+      //TODO: dealer.reset() //换一副牌
    }
 }
