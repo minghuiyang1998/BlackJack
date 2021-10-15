@@ -13,15 +13,13 @@ abstract class AbstractPlayer {
         return balance;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setBalance(Money balance) {
         this.balance = balance;
     }
 
-    private void reset() {
-        /* each round init player's cardsInHand and action status */
-//        if (this.cardsInHand.getSize() == 0) {
-//            return;
-//        }
-//        clearCardsHold();
-    }
+    abstract public void reset();
 }

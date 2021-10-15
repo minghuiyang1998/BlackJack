@@ -9,6 +9,11 @@ final class TEPlayer extends AbstractPlayer {
             super(name, balance);
     }
 
+    @Override
+    public void reset() {
+
+    }
+
     public Hand getHand() {
         return hand;
     }
