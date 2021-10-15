@@ -13,7 +13,7 @@ abstract class AbstractCardGame {
     }
 
     public Money inquireBet(int balance) {
-        System.out.println("Type the bet(at least 1): ");
+        System.out.println("Input the bet(at least 1): ");
         int val = 0;
         final int MIN_VAL = 1;
         while (val < MIN_VAL || val > balance) {
@@ -49,7 +49,7 @@ abstract class AbstractCardGame {
     }
     
     PlayerActionType chooseAction(ArrayList<PlayerActionType> actions) {
-        System.out.println("Please select a action id: ");
+        System.out.println("Please select an action id: ");
         for (int i = 0; i < actions.size(); i++) {
             System.out.println(i + ": " + actions.get(i).getName());
         }
