@@ -7,4 +7,12 @@ interface Referee<T extends AbstractPlayer> {
     boolean isExceed(CardSet hand, int value);
     boolean isPlayerStop(T players);
     boolean isAllPlayersStop(ArrayList<T> players);
+    default int getHandValue(Hand hand) {
+        int sum = 0;
+        ArrayList<Card> cards = hand.getDeck();
+        for (Card c: cards) {
+            sum += c.getValue();
+        }
+        return sum;
+    }
 }

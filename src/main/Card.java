@@ -1,9 +1,9 @@
 package main;
 
 class Card {
-    private Suits suit;    // For poker, suits can be clubs, spades, hearts and diamonds
-    private String name;    // Ace, 2, ..., 10, Jack, Queen, King
-    private int value;
+    private final Suits suit;    // For poker, suits can be clubs, spades, hearts and diamonds
+    private final String name;    // Ace, 2, ..., 10, Jack, Queen, King
+    private final int value;
     private boolean isShown;
 
     Card(Suits suit, String name, int val) {
@@ -26,31 +26,15 @@ class Card {
         return getSuit().toString() + getName();
     }
 
-    public boolean equals(Card c) {
-        return this.value == c.getValue();
-    }
-
     public Suits getSuit() {
         return suit;
-    }
-
-    public void setSuit(Suits suit) {
-        this.suit = suit;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getValue() {
         return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
     }
 }

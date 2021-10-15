@@ -9,16 +9,16 @@ abstract class AbstractPlayer {
         this.balance = new Money(balance);
     }
 
-    public Money getBalance() {
-        return balance;
+    public int getBalance() {
+        return balance.getValue();
     }
 
     public String getName() {
         return name;
     }
 
-    public void setBalance(Money balance) {
-        this.balance = balance;
+    public void setBalance(int balance) {
+        this.balance = new Money(balance);
     }
 
     abstract public void reset();

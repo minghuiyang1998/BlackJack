@@ -72,7 +72,7 @@ class BlackJack extends AbstractCardGame{
             isActionSucceed = p.changeHand();
             break;
          case SPLIT:
-             if (p.getBalance().getValue() < p.getBet().getValue()) {
+             if (p.getBalance() < p.getBet().getValue()) {
                  isActionSucceed = false;
              } else {
                 p.split();
@@ -80,7 +80,7 @@ class BlackJack extends AbstractCardGame{
              }
             break;
          case DOUBLEUP:
-            if (p.getBalance().getValue() < p.getBet().getValue()) {
+            if (p.getBalance() < p.getBet().getValue()) {
                isActionSucceed = false;
             } else {
                Card newCard = bjDealer.getRandomCard();
@@ -119,10 +119,11 @@ class BlackJack extends AbstractCardGame{
       System.out.println();
 
       for (BJPlayer p: bjPlayers) {
-         System.out.println(p.getName()+":");
+         System.out.println(p.getName() + " " + "Balance:" + p.getBalance() + " ");
          ArrayList<Hand> pHands = p.getHands();
          for (int i = 0; i < pHands.size(); i++) {
             Hand h = pHands.get(i);
+            System.out.print("Hand" + i + " " + "Bet:" + h.getBet().getValue() + " Cards: ");
             ArrayList<Card> pCards = h.getDeck();
             for (Card c: pCards) {
                if (c.isShown()) {
@@ -179,26 +180,35 @@ class BlackJack extends AbstractCardGame{
             isExceed = bjReferee.isExceed(bjDealer.getHand(), EXCEED_VAL);
          }
          printTable();
+
          boolean isDealerBust = bjReferee.isBust(bjDealer.getHand());
          if (isDealerBust) {
-
+            System.out.println("All stand hands win!");
+            for (BJPlayer p: bjPlayers) {
+               int win = 0;
+               ArrayList<Hand> hands = p.getHands();
+               for (Hand h: hands) {
+                  if (h.isStand()) {
+                     win += h.getBet().getValue() * 2;
+                  }
+               }
+               p.setBalance(p.getBalance() + win);
+            }
          } else {
-
+            System.out.println("All stand and exceed dealer hands win!");
+            int dealerVal = bjReferee.getHandValue(bjDealer.getHand());
+            for (BJPlayer p: bjPlayers) {
+               int win = 0;
+               ArrayList<Hand> hands = p.getHands();
+               for (Hand h: hands) {
+                  if (h.isStand() && bjReferee.getHandValue(h) > dealerVal) {
+                     win += h.getBet().getValue() * 2;
+                  }
+               }
+               p.setBalance(p.getBalance() + win);
+            }
          }
           isRoundEnd = true;
-          /**
-          * isDealerBust = referee.isBust(dealer hand) //dealer
-          * if (isDealerBust) {
-          *    all players' hands win
-          *    play.setBalance
-          * } else {
-          *    referee计算所有的player和dealer的hands， 1
-          *    所有没有bust且超过dealer's hand的hand获胜 2
-          *    play.setBalance
-          * }
-          *
-          * set isRoundEnd = true
-          */
       }
    }
 
