@@ -53,7 +53,7 @@ class TriantaEna extends AbstractCardGame {
                 tePlayers.add(new TEPlayer("TEPlayer " + i, 100));
             }
             Poker poker = new Poker();
-            TEDealer teDealer = new TEDealer(poker);
+            TEDealer teDealer = new TEDealer(poker, );
             TEReferee teReferee = new TEReferee();
             INSTANCE = new TriantaEna(tePlayers, teDealer, teReferee);
         }
@@ -204,7 +204,7 @@ class TriantaEna extends AbstractCardGame {
         }
         // TODO: see if any player's balance exceed banker
         // let player to decide whether to be a banker
-        
+
     }
 
     @Override
