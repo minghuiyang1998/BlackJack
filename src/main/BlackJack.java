@@ -152,7 +152,8 @@ class BlackJack extends AbstractCardGame{
       boolean isRoundEnd = false;
       while (isRoundEnd) {//all player win/lose/push referee decide isRoundEnd
          for (BJPlayer p : bjPlayers) {
-            //TODO:referee 判断player能不能玩不能就 continue；
+            boolean isPlayerStop = bjReferee.isPlayerStop(p);
+            if (isPlayerStop) continue;
             // Whole player all hanged: isStand or isBust: getHands() -> referee
             boolean isActionSucceed = false;
             while (!isActionSucceed) {

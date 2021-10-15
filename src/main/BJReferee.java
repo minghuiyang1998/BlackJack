@@ -21,9 +21,13 @@ class BJReferee implements Referee<BJPlayer> {
     }
 
     @Override
-    public boolean isAllStop(ArrayList<BJPlayer> players) {
+    public boolean isPlayerStop(BJPlayer players) {
+
         return false;
     }
 
-
+    @Override
+    public boolean isAllPlayersStop(ArrayList<BJPlayer> players) {
+        return false;
+    }
 }
