@@ -16,7 +16,7 @@ class BJReferee implements Referee<BJPlayer> {
     }
 
     @Override
-    public boolean hasExceed(CardSet hand, int value) {
+    public boolean isExceed(CardSet hand, int value) {
         return false;
     }
 
@@ -34,6 +34,12 @@ class BJReferee implements Referee<BJPlayer> {
 
     @Override
     public boolean isAllPlayersStop(ArrayList<BJPlayer> players) {
-        return false;
+        int count = 0;
+        for (BJPlayer p: players) {
+            if (p.getCurrIndex() < 0) {
+                count += 1;
+            }
+        }
+        return count == players.size();
     }
 }

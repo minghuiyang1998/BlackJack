@@ -15,7 +15,7 @@ class BJDealer extends AbstractDealer {
         hand.hit(c);
     }
 
-    public ArrayList<Card> getCards() {
-        return hand.getDeck();
+    public Hand getHand() {
+        return hand;
     }
 }

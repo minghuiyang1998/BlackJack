@@ -110,7 +110,7 @@ class BlackJack extends AbstractCardGame{
 
    private void printTable() {
       System.out.println("Dealer:");
-      ArrayList<Card> dealerCards = bjDealer.getCards();
+      ArrayList<Card> dealerCards = bjDealer.getHand().getDeck();
       for (Card c: dealerCards) {
          if (c.isShown()) {
             System.out.print(c.getSuit() + c.getName()+ " ");
@@ -167,16 +167,25 @@ class BlackJack extends AbstractCardGame{
             }
             printTable();
          }
-         // TODO: referee if all player unavail, 如果是dealer就开始操作
-         bjReferee.isAllPlayersStop(bjPlayers);
-         /**
-          *
-          * for all players currIndex = -1 -> dealer
-          * while (!isExceeded) { //17
-          *    dealer.addCard()
-          * }
-          */
-          printTable();
+         boolean isAllPlayerStop = bjReferee.isAllPlayersStop(bjPlayers);
+         if (!isAllPlayerStop) continue;
+
+         // dealer
+         int EXCEED_VAL = 17;
+         boolean isExceed = bjReferee.isExceed(bjDealer.getHand(), EXCEED_VAL);;
+         while (!isExceed) {
+            Card c = bjDealer.getRandomCard();
+            bjDealer.addCard(c);
+            isExceed = bjReferee.isExceed(bjDealer.getHand(), EXCEED_VAL);
+         }
+         printTable();
+         boolean isDealerBust = bjReferee.isBust(bjDealer.getHand());
+         if (isDealerBust) {
+
+         } else {
+
+         }
+          isRoundEnd = true;
           /**
           * isDealerBust = referee.isBust(dealer hand) //dealer
           * if (isDealerBust) {

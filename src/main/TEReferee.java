@@ -9,7 +9,7 @@ class TEReferee implements Referee<TEPlayer> {
     }
 
     @Override
-    public boolean hasExceed(CardSet hand, int value) {
+    public boolean isExceed(CardSet hand, int value) {
         return false;
     }
 
