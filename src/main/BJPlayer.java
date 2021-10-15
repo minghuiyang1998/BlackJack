@@ -1,5 +1,6 @@
 package main;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 final class BJPlayer extends AbstractPlayer {
@@ -52,25 +53,35 @@ final class BJPlayer extends AbstractPlayer {
         }
     }
 
+    public Money getBet() {
+        Hand curr = hands.get(currIndex);
+        return curr.getBet();
+    }
+
     public void hit(Card c) {
         Hand curr = hands.get(currIndex);
         curr.hit(c);
     }
 
-    public void split(Card[] cards) {
-        if (cards.length < 2) {
+    public void split() {
+        Hand curr = hands.get(currIndex);
+        ArrayList<Card> cards = curr.getDeck();
+        if (cards.size() < 2) {
             System.out.println("invalid value");
             return;
         }
-        Hand curr = hands.get(currIndex);
         Hand splitedHand = curr.split();
-        curr.deal(new Card[]{cards[0]});
-        splitedHand.deal(new Card[]{cards[1]});
+        ArrayList<Card> first = new ArrayList<>();
+        first.add(cards.get(0));
+        ArrayList<Card> second = new ArrayList<>();
+        second.add(cards.get(1));
+        curr.deal(first);
+        splitedHand.deal(second);
         splitedHand.setBet(curr.getBet());
         hands.add(splitedHand);
     }
 
-    public void deal(Card[]cards) {
+    public void deal(ArrayList<Card> cards) {
         Hand curr = hands.get(currIndex);
         curr.deal(cards);
     }

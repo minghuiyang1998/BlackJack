@@ -1,5 +1,7 @@
 package main;
 
+import java.util.ArrayList;
+
 final class TEPlayer extends AbstractPlayer {
     private Hand hand;
 
@@ -19,7 +21,7 @@ final class TEPlayer extends AbstractPlayer {
         hand.hit(c);
     }
 
-    public void deal(Card[]cards) {
+    public void deal(ArrayList<Card> cards) {
         hand.deal(cards);
     }
 

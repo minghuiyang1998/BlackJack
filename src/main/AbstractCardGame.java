@@ -12,6 +12,25 @@ abstract class AbstractCardGame {
         this.scanner = new Scanner(System.in);
     }
 
+    public Money inquireBet() {
+        System.out.println("Type the bet(at least 1): ");
+        int val = 0;
+        final int MIN_VAL = 1;
+        while (val < MIN_VAL) {
+            String betVal = scanner.nextLine();
+            try {
+                val = Integer.parseInt(betVal);
+            } catch (NumberFormatException e) {
+                System.out.println("invalid input, please enter an integer!");
+            }
+
+            if (val < MIN_VAL) {
+                System.out.println("invalid input, please enter a valid integer!");
+            }
+        }
+        return new Money(val);
+    }
+
     private boolean inquireIsExit() {
         System.out.println("Whether to restart the game? (y/n)");
         String answer = scanner.nextLine();

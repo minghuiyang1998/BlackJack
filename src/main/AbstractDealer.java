@@ -1,5 +1,7 @@
 package main;
 
+import java.util.ArrayList;
+
 abstract class AbstractDealer {
     CardSet notDealt;
 
@@ -7,11 +9,11 @@ abstract class AbstractDealer {
         this.notDealt = deck;
     }
 
-    Card[] deal(int n) {
+    ArrayList<Card> deal(int n) {
         /* deal n cards to a player */
-        Card[] cards = new Card[n];
+        ArrayList<Card> cards = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            cards[i] = getRandomCard();
+            cards.add(getRandomCard());
         }
 
         return cards;

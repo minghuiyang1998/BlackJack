@@ -58,36 +58,61 @@ class BlackJack extends AbstractCardGame{
       return def;
    }
 
+   private boolean playAction(BJPlayer p) {
+      boolean isActionSucceed = false;
+      ArrayList<PlayerActionType> actions = renderActionList(p);
+      PlayerActionType a = chooseAction(actions);
+      switch (a) {
+         case HIT:
+            Card card = dealer.getRandomCard();
+            p.hit(card);
+            isActionSucceed = true;
+            break;
+         case STAND:
+            p.standCurr();
+            isActionSucceed = p.changeHand();
+            break;
+         case SPLIT:
+             if (p.getBalance().getValue() < p.getBet().getValue()) {
+                 isActionSucceed = false;
+             } else {
+                p.split();
+                isActionSucceed = true;
+             }
+            break;
+         case DOUBLEUP:
+            if (p.getBalance().getValue() < p.getBet().getValue()) {
+               isActionSucceed = false;
+            } else {
+               Card newCard = dealer.getRandomCard();
+               p.doubleUp(newCard);
+               isActionSucceed = true;
+            }
+            break;
+         case DEAL:
+            ArrayList<Card> newCards = dealer.deal(2);
+            p.deal(newCards);
+            break;
+         default:
+            break;
+      }
+      return isActionSucceed;
+   }
+
    @Override
    void startGame() {
-      //TODO: all player set bet
+      for (BJPlayer p: bjPlayers) {
+         Money bet = inquireBet();
+         p.setBet(bet);// if hands is null, it will add a new hand and set bet
+      }
       boolean isRoundEnd = false;
       while (isRoundEnd) {//all player win/lose/push referee decide isRoundEnd
          for (BJPlayer p : bjPlayers) {
             //TODO:referee 判断player能不能玩不能就 continue；
             // Whole player all hanged: isStand or isBust: getHands() -> referee
-
-            ArrayList<PlayerActionType> actions = renderActionList(p);
-            PlayerActionType a = chooseAction(actions);
-            switch (a) {
-               case HIT:
-                  // dealer
-                  // player
-                  break;
-               case STAND:
-                   p.standCurr();
-                   p.changeHand();
-                  break;
-               case SPLIT:
-                  // TODO: before player.split(cards) 判断一下balance够不够
-                  break;
-               case DOUBLEUP:
-                  // TODO: before player.doub(cards) 判断一下balance够不够
-                  break;
-               case DEAL:
-                  break;
-               default:
-                  break;
+            boolean isActionSucceed = false;
+            while (!isActionSucceed) {
+               isActionSucceed = playAction(p);
             }
             //TODO:boolean result = referee.judge()
             /**
