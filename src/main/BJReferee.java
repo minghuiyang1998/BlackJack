@@ -21,9 +21,15 @@ class BJReferee implements Referee<BJPlayer> {
     }
 
     @Override
-    public boolean isPlayerStop(BJPlayer players) {
-
-        return false;
+    public boolean isPlayerStop(BJPlayer player) {
+        int count = 0;
+        ArrayList<Hand> hands = player.getHands();
+        for (Hand h: hands) {
+            if (h.isBust() || h.isStand()) {
+                count += 1;
+            };
+        }
+        return count == hands.size();
     }
 
     @Override

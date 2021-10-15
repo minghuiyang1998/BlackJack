@@ -14,7 +14,7 @@ class TEReferee implements Referee<TEPlayer> {
     }
 
     @Override
-    public boolean isPlayerStop(TEPlayer players) {
+    public boolean isPlayerStop(TEPlayer player) {
         return false;
     }
 
