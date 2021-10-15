@@ -3,7 +3,6 @@ package main;
 abstract class AbstractPlayer {
     private final String name;
     private Money balance;
-    private boolean
 
     AbstractPlayer(String name, int balance) {
         this.name = name;
