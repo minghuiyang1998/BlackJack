@@ -12,11 +12,11 @@ abstract class AbstractCardGame {
         this.scanner = new Scanner(System.in);
     }
 
-    public Money inquireBet() {
+    public Money inquireBet(int balance) {
         System.out.println("Type the bet(at least 1): ");
         int val = 0;
         final int MIN_VAL = 1;
-        while (val < MIN_VAL) {
+        while (val < MIN_VAL && val > balance) {
             String betVal = scanner.nextLine();
             try {
                 val = Integer.parseInt(betVal);
@@ -24,7 +24,7 @@ abstract class AbstractCardGame {
                 System.out.println("invalid input, please enter an integer!");
             }
 
-            if (val < MIN_VAL) {
+            if (val < MIN_VAL && val > balance) {
                 System.out.println("invalid input, please enter a valid integer!");
             }
         }
