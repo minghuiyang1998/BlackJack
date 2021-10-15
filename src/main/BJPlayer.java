@@ -50,6 +50,7 @@ final class BJPlayer extends AbstractPlayer {
         if (hands.size() <= 0) {
             Hand temp = new Hand(bet);
             hands.add(temp);
+            currIndex = 0;
         } else {
             Hand curr = hands.get(currIndex);
             curr.setBet(bet);
