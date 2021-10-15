@@ -33,6 +33,9 @@ final class BJPlayer extends AbstractPlayer {
         return hands;
     }
 
+    public int getCurrIndex() {
+        return currIndex;
+    }
 
     public Hand getHand() {
         return hands.get(currIndex);

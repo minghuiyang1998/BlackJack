@@ -8,7 +8,7 @@ class BlackJack extends AbstractCardGame{
    private static BlackJack INSTANCE = null;
    private final BJPlayer[] bjPlayers;
    private final BJDealer bjDealer;
-   private final BJReferee referee;
+   private final BJReferee bjReferee;
 
    private BlackJack(
            BJPlayer[] bjPlayers,
@@ -18,7 +18,7 @@ class BlackJack extends AbstractCardGame{
       super();
       this.bjPlayers = bjPlayers;
       this.bjDealer = bjDealer;
-      this.referee = bjReferee;
+      this.bjReferee = bjReferee;
    }
 
    static public BlackJack getInstance() {
@@ -89,8 +89,18 @@ class BlackJack extends AbstractCardGame{
             }
             break;
          case DEAL:
-            ArrayList<Card> newCards = bjDealer.deal(2);
-            p.deal(newCards);
+            ArrayList<Card> playerCards = bjDealer.deal(2);
+            p.deal(playerCards);
+            // dealer add cards
+            ArrayList<Card> dealerCards = bjDealer.deal(2);
+            int DEALER_CARDS_LEN = dealerCards.size();
+            for (int i = 0; i < DEALER_CARDS_LEN; i++) {
+               Card c = dealerCards.get(i);
+               if (i == DEALER_CARDS_LEN - 1) {
+                  c.setShown(false);
+               }
+               bjDealer.addCard(c);
+            }
             break;
          default:
             break;
@@ -110,13 +120,26 @@ class BlackJack extends AbstractCardGame{
 
       for (BJPlayer p: bjPlayers) {
          System.out.println(p.getName()+":");
-         ArrayList<Card> pCards = bjDealer.getCards();
-         for (Card c: pCards) {
-            if (c.isShown()) {
-               System.out.print(c.getSuit() + c.getName()+ " ");
+         ArrayList<Hand> pHands = p.getHands();
+         for (int i = 0; i < pHands.size(); i++) {
+            Hand h = pHands.get(i);
+            ArrayList<Card> pCards = h.getDeck();
+            for (Card c: pCards) {
+               if (c.isShown()) {
+                  System.out.print(c.getSuit() + c.getName()+ " ");
+               }
             }
+            if (i == p.getCurrIndex()) {
+               System.out.print("<Current Hand> ");
+            }
+            if (h.isBust()) {
+               System.out.print("<Bust> ");
+            }
+            if (h.isStand()) {
+               System.out.print("<Stand> ");
+            }
+            System.out.println();
          }
-         System.out.println();
       }
    }
 
@@ -135,22 +158,12 @@ class BlackJack extends AbstractCardGame{
             while (!isActionSucceed) {
                isActionSucceed = playAction(p);
             }
-            //TODO:boolean result = referee.judge()
-            /**
-             * referee's work
-             * bust:
-             * calc player.getHand() -> isBust()
-             * if(bust) set true + change currrent hand
-             * */
-             printTable();
-            /**
-             * dealer.cardsset（有一张牌没有展示）
-             *
-             * for playes
-             *   for player.hands
-             *      cardset-> card
-             *
-             * */
+            // referee
+            if (bjReferee.isBust(p.getHand())) {
+               p.setCurrBust(true);
+               p.changeHand();
+            }
+            printTable();
          }
          // TODO: referee if all player unavail, 如果是dealer就开始操作
          /**
@@ -159,9 +172,9 @@ class BlackJack extends AbstractCardGame{
           * while (!isExceeded) { //17
           *    dealer.addCard()
           * }
-          *
-          * printTable: 全部的牌展示
-          *
+          */
+          printTable();
+          /**
           * isDealerBust = referee.isBust(dealer hand) //dealer
           * if (isDealerBust) {
           *    all players' hands win

@@ -1,47 +1,27 @@
 package main;
 
-class BJReferee implements Referee {
-    final int bustVal = 21;
-    //TODO: BUST_VAL
+import java.util.ArrayList;
+
+class BJReferee implements Referee<BJPlayer> {
+    final int BUST_VAL = 21;
 
     @Override
-    public int getValue(Card c) {
-        return c.getValue();
-    }
-
-    @Override
-    public int getValue(CardSet hand) {
-        /* get sum of all card values of given card set */
-        int value = 0;
-        for (Card c : hand.getDeck()) {
-            value += c.getValue();
+    public boolean isBust(Hand hand) {
+        ArrayList<Card> cards = hand.getDeck();
+        int sum = 0;
+        for (Card c: cards) {
+            sum += c.getValue();
         }
-        return value;
-    }
-
-    public boolean isStand(BJPlayer p) {
-        for (Hand h : p.getHands()) {
-            if (!h.isStand()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean isBust(BJPlayer p) {
-        for (Hand h : p.getHands()) {
-            if (!h.isBust()) {
-                return false;
-            }
-        }
-        return true;
+        return sum > BUST_VAL;
     }
 
     @Override
     public boolean hasExceed(CardSet hand, int value) {
-        if (getValue(hand) >= value) {
-            return true;
-        }
+        return false;
+    }
+
+    @Override
+    public boolean isAllStop(ArrayList<BJPlayer> players) {
         return false;
     }
 

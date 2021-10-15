@@ -1,20 +1,10 @@
 package main;
 
-class TEReferee implements Referee {
-    // TODO: Override interface methods
+import java.util.ArrayList;
 
+class TEReferee implements Referee<TEPlayer> {
     @Override
-    public int getValue(Card c) {
-        return 0;
-    }
-
-    @Override
-    public int getValue(CardSet hand) {
-        return 0;
-    }
-
-    @Override
-    public boolean isBust(CardSet hand) {
+    public boolean isBust(Hand hand) {
         return false;
     }
 
@@ -24,8 +14,7 @@ class TEReferee implements Referee {
     }
 
     @Override
-    public boolean isAllStand(AbstractPlayer[] players) {
+    public boolean isAllStop(ArrayList<TEPlayer> players) {
         return false;
     }
-
 }
