@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 class TriantaEna extends AbstractCardGame {
     private static TriantaEna INSTANCE = null;
-    private final AbstractPlayer[] tePlayers;
-    private final AbstractDealer teDealer;
-    private final Referee teReferee;
+    private final ArrayList<TEPlayer> tePlayers;
+    private final TEDealer teDealer;
+    private final TEReferee teReferee;
 
     private static int inquirePlayers() {
         Scanner scanner = new Scanner(System.in);
@@ -32,7 +32,7 @@ class TriantaEna extends AbstractCardGame {
     }
 
     private TriantaEna(
-            TEPlayer[] tePlayers,
+            ArrayList<TEPlayer> tePlayers,
             TEDealer teDealer,
             TEReferee teReferee
     ) {
@@ -44,7 +44,10 @@ class TriantaEna extends AbstractCardGame {
     static public TriantaEna getInstance() {
         if (INSTANCE == null) {
             int playersNumb = inquirePlayers();
-            TEPlayer[] tePlayers = new TEPlayer[playersNumb];
+            ArrayList<TEPlayer> tePlayers = new ArrayList<>();
+            for (int i = 0; i < playersNumb; i++) {
+                tePlayers.add(new TEPlayer("TEPlayer " + i, 100));
+            }
             Poker poker = new Poker();
             TEDealer teDealer = new TEDealer(poker);
             TEReferee teReferee = new TEReferee();

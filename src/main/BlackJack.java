@@ -6,12 +6,12 @@ import static main.PlayerActionType.*;
 
 class BlackJack extends AbstractCardGame{
    private static BlackJack INSTANCE = null;
-   private final BJPlayer[] bjPlayers;
+   private final ArrayList<BJPlayer> bjPlayers;
    private final BJDealer bjDealer;
    private final BJReferee bjReferee;
 
    private BlackJack(
-           BJPlayer[] bjPlayers,
+           ArrayList<BJPlayer> bjPlayers,
            BJDealer bjDealer,
            BJReferee bjReferee
    ) {
@@ -24,9 +24,9 @@ class BlackJack extends AbstractCardGame{
    static public BlackJack getInstance() {
       if (INSTANCE == null) {
          final int LEN = 2;
-         BJPlayer[] bjPlayers = new BJPlayer[LEN];
+         ArrayList<BJPlayer> bjPlayers = new ArrayList<>();
          for (int i = 0; i < LEN; i++) {
-            bjPlayers[i] = new BJPlayer("Player " + i, 100);
+            bjPlayers.add(new BJPlayer("BJPlayer " + i, 100));
          }
          Poker poker = new Poker();
          BJDealer bjDealer = new BJDealer(poker);
@@ -154,11 +154,12 @@ class BlackJack extends AbstractCardGame{
          for (BJPlayer p : bjPlayers) {
             boolean isPlayerStop = bjReferee.isPlayerStop(p);
             if (isPlayerStop) continue;
-            // Whole player all hanged: isStand or isBust: getHands() -> referee
+
             boolean isActionSucceed = false;
             while (!isActionSucceed) {
                isActionSucceed = playAction(p);
             }
+
             // referee
             if (bjReferee.isBust(p.getHand())) {
                p.setCurrBust(true);
@@ -167,6 +168,7 @@ class BlackJack extends AbstractCardGame{
             printTable();
          }
          // TODO: referee if all player unavail, 如果是dealer就开始操作
+         bjReferee.isAllPlayersStop(bjPlayers);
          /**
           *
           * for all players currIndex = -1 -> dealer
