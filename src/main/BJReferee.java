@@ -19,22 +19,22 @@ class BJReferee implements Referee {
         return value;
     }
 
-    @Override
-    public boolean isAllStand(AbstractPlayer[] players) {
-        for (AbstractPlayer p : players) {
-            if (!p.isStand()) {
+    public boolean isStand(BJPlayer p) {
+        for (Hand h : p.getHands()) {
+            if (!h.isStand()) {
                 return false;
             }
         }
         return true;
     }
 
-    @Override
-    public boolean isBust(CardSet hand) {
-        if (getValue(hand) > this.bustVal) {
-            return true;
+    public boolean isBust(BJPlayer p) {
+        for (Hand h : p.getHands()) {
+            if (!h.isBust()) {
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 
     @Override

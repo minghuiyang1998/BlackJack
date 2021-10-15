@@ -5,6 +5,8 @@ interface Referee {
     int getValue(CardSet hand);
     boolean isBust(CardSet hand);
     boolean hasExceed(CardSet hand, int value);
-    boolean isAllStand(AbstractPlayer[] players);
+    boolean isStand(AbstractPlayer player);
+    boolean isBust(AbstractPlayer player);
+//    boolean judge();
 
 }

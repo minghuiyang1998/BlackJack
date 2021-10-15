@@ -11,8 +11,15 @@ final class BJPlayer extends AbstractPlayer {
     }
 
     public boolean changeHand() {
-        //TODO:一定要换一只没问题的手，如果没有可用的手，currentIndex -1
-
+        /* change current hand into a "un-stand" and "un-bust" hand of cards */
+        for (int i = 0; i< this.hands.size(); i++) {
+            if (!hands.get(i).isBust() && !hands.get(i).isStand()) {
+                this.currIndex = i;
+                return true;
+            }
+        }
+        this.currIndex = -1;
+        return false;
     }
 
     public ArrayList<Hand> getHands() {
