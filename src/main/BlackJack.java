@@ -63,6 +63,8 @@ class BlackJack extends AbstractCardGame{
    private boolean playAction(BJPlayer p) {
       boolean isActionSucceed = false;
       ArrayList<PlayerActionType> actions = renderActionList(p);
+      System.out.println();
+      System.out.print(p.getName() + " ");
       PlayerActionType a = chooseAction(actions);
       switch (a) {
          case HIT:
@@ -72,13 +74,15 @@ class BlackJack extends AbstractCardGame{
             break;
          case STAND:
             p.standCurr();
-            isActionSucceed = p.changeHand();
+            p.changeHand();
+            isActionSucceed = true;
             break;
          case SPLIT:
              if (p.getBalance() < p.getBet().getValue()) {
                  isActionSucceed = false;
              } else {
-                p.split();
+                ArrayList<Card> cards = bjDealer.deal(2);
+                p.split(cards);
                 isActionSucceed = true;
              }
             break;
@@ -95,15 +99,18 @@ class BlackJack extends AbstractCardGame{
             ArrayList<Card> playerCards = bjDealer.deal(2);
             p.deal(playerCards);
             // dealer add cards
-            ArrayList<Card> dealerCards = bjDealer.deal(2);
-            int DEALER_CARDS_LEN = dealerCards.size();
-            for (int i = 0; i < DEALER_CARDS_LEN; i++) {
-               Card c = dealerCards.get(i);
-               if (i == DEALER_CARDS_LEN - 1) {
-                  c.setShown(false);
+            if (bjDealer.getHand().getDeck().size() <= 0) {
+               ArrayList<Card> dealerCards = bjDealer.deal(2);
+               int DEALER_CARDS_LEN = dealerCards.size();
+               for (int i = 0; i < DEALER_CARDS_LEN; i++) {
+                  Card c = dealerCards.get(i);
+                  if (i == DEALER_CARDS_LEN - 1) {
+                     c.setShown(false);
+                  }
+                  bjDealer.addCard(c);
                }
-               bjDealer.addCard(c);
             }
+            printTable();
             break;
          default:
             break;
@@ -112,12 +119,19 @@ class BlackJack extends AbstractCardGame{
    }
 
    private void printTable() {
+      System.out.println();
       System.out.println("Dealer:");
-      ArrayList<Card> dealerCards = bjDealer.getHand().getDeck();
+      Hand dealerHand = bjDealer.getHand();
+      ArrayList<Card> dealerCards = dealerHand.getDeck();
       for (Card c: dealerCards) {
          if (c.isShown()) {
             System.out.print(c.getSuit() + c.getName()+ " ");
+         } else {
+            System.out.print("-- ");
          }
+      }
+      if (dealerHand.isBust()) {
+         System.out.print("<Bust> ");
       }
       System.out.println();
 
@@ -131,9 +145,11 @@ class BlackJack extends AbstractCardGame{
             for (Card c: pCards) {
                if (c.isShown()) {
                   System.out.print(c.getSuit() + c.getName()+ " ");
+               } else {
+                  System.out.print("--");
                }
             }
-            if (i == p.getCurrIndex()) {
+            if (pCards.size() > 0 && i == p.getCurrIndex()) {
                System.out.print("<Current Hand> ");
             }
             if (h.isBust()) {
@@ -150,7 +166,9 @@ class BlackJack extends AbstractCardGame{
    @Override
    void startGame() {
       for (BJPlayer p: bjPlayers) {
-         Money bet = inquireBet();
+         System.out.print(p.getName() + "(Balance: " + p.getBalance() + ") " );
+         Money bet = inquireBet(p.getBalance());
+         p.setBalance(p.getBalance() - bet.getValue());
          p.setBet(bet);// if hands is null, it will add a new hand and set bet
       }
       boolean isRoundEnd = false;
@@ -165,7 +183,7 @@ class BlackJack extends AbstractCardGame{
             }
 
             // referee
-            if (bjReferee.isBust(p.getHand())) {
+            if (p.getCurrIndex() >= 0 && bjReferee.isBust(p.getHand())) {
                p.setCurrBust(true);
                p.changeHand();
             }
@@ -176,16 +194,23 @@ class BlackJack extends AbstractCardGame{
 
          // dealer
          int EXCEED_VAL = 17;
+         for (Card c: bjDealer.getHand().getDeck()) {
+            if (!c.isShown()) {
+               c.setShown(true);
+            }
+         }
          boolean isExceed = bjReferee.isExceed(bjDealer.getHand(), EXCEED_VAL);;
          while (!isExceed) {
             Card c = bjDealer.getRandomCard();
             bjDealer.addCard(c);
             isExceed = bjReferee.isExceed(bjDealer.getHand(), EXCEED_VAL);
          }
-         printTable();
 
-         boolean isDealerBust = bjReferee.isBust(bjDealer.getHand());
-         if (isDealerBust) {
+         if (bjReferee.isBust(bjDealer.getHand())) {
+            bjDealer.getHand().setBust(true);
+         }
+         printTable();
+         if (bjDealer.getHand().isBust()) {
             System.out.println("All stand hands win!");
             for (BJPlayer p: bjPlayers) {
                int win = 0;
@@ -196,6 +221,7 @@ class BlackJack extends AbstractCardGame{
                   }
                }
                p.setBalance(p.getBalance() + win);
+               System.out.println(p.getName() + " Balance: " + p.getBalance());
             }
          } else {
             System.out.println("All stand and exceed dealer hands win!");
@@ -211,7 +237,8 @@ class BlackJack extends AbstractCardGame{
                p.setBalance(p.getBalance() + win);
             }
          }
-          isRoundEnd = true;
+         isRoundEnd = true;
+         System.out.println();
       }
    }
 

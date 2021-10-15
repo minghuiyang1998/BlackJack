@@ -17,7 +17,12 @@ class BJReferee implements Referee<BJPlayer> {
 
     @Override
     public boolean isExceed(CardSet hand, int value) {
-        return false;
+        ArrayList<Card> cards = hand.getDeck();
+        int count = 0;
+        for (Card c: cards) {
+            count += c.getValue();
+        }
+        return count >= value;
     }
 
     @Override
