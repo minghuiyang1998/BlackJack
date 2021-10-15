@@ -11,7 +11,7 @@ final class TEPlayer extends AbstractPlayer implements Comparable<TEPlayer> {
 
     @Override
     public void reset() {
-
+        this.hand.clear();
     }
 
     public Hand getHand() {
@@ -32,10 +32,6 @@ final class TEPlayer extends AbstractPlayer implements Comparable<TEPlayer> {
 
     public void standCurr() {
         hand.stand();
-    }
-
-    public void doubleUp(Card c) {
-        hand.doubleUp(c);
     }
 
     public void setCurrBust(boolean bust) {
