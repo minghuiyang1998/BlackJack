@@ -16,7 +16,7 @@ abstract class AbstractCardGame {
         System.out.println("Type the bet(at least 1): ");
         int val = 0;
         final int MIN_VAL = 1;
-        while (val < MIN_VAL && val > balance) {
+        while (val < MIN_VAL || val > balance) {
             String betVal = scanner.nextLine();
             try {
                 val = Integer.parseInt(betVal);
@@ -24,7 +24,7 @@ abstract class AbstractCardGame {
                 System.out.println("invalid input, please enter an integer!");
             }
 
-            if (val < MIN_VAL && val > balance) {
+            if (val < MIN_VAL || val > balance) {
                 System.out.println("invalid input, please enter a valid integer!");
             }
         }
