@@ -221,6 +221,7 @@ class BlackJack extends AbstractCardGame{
                   }
                }
                p.setBalance(p.getBalance() + win);
+               System.out.println(p.getName() + " Balance: " + p.getBalance());
             }
          } else {
             System.out.println("All stand and exceed dealer hands win!");
@@ -237,6 +238,7 @@ class BlackJack extends AbstractCardGame{
             }
          }
          isRoundEnd = true;
+         System.out.println();
       }
    }
 
