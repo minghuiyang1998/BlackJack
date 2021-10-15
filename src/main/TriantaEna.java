@@ -58,6 +58,7 @@ class TriantaEna extends AbstractCardGame {
             // Sort tePlayers in descending order
             Collections.sort(tePlayers);
             TEDealer teDealer = new TEDealer(tePlayers.get(0).getName(), tePlayers.get(0).getBalance(), poker);
+            tePlayers.remove(0);
             TEReferee teReferee = new TEReferee();
             INSTANCE = new TriantaEna(tePlayers, teDealer, teReferee);
         }
@@ -107,7 +108,7 @@ class TriantaEna extends AbstractCardGame {
         //  when the player has greater amount of money than current banker
         TEPlayer player = tePlayers.get(playerIndex);
         // dealer is actually initialized here if there is some player becomes a dealer
-        TEPlayer formerDealer = new TEPlayer(teDealer.getName(), teDealer.getBank().getValue());
+        TEPlayer formerDealer = new TEPlayer(teDealer.getName(), teDealer.getBank());
         teDealer = new TEDealer(player.getName(), player.getBalance(), new Poker());
         tePlayers.add(playerIndex, formerDealer);
         // TODO: check whether remove index is correct
@@ -192,7 +193,7 @@ class TriantaEna extends AbstractCardGame {
             p.setBet(bet);
         }
         // Dealer set bet
-        Money dealerBet = new Money(bet.getValue() * tePlayers.size())
+        Money dealerBet = new Money(bet.getValue() * tePlayers.size());
         teDealer.setBank(teDealer.getBank() - bet.getValue());
         teDealer.setBet(dealerBet);
 
@@ -240,6 +241,7 @@ class TriantaEna extends AbstractCardGame {
 
                 }
             } else {
+                boolean dealerWin = true;
                 System.out.println("All stand and exceed dealer players win!");
                 int dealerVal = teReferee.getHandValue(teDealer.getHand());
                 for (TEPlayer p: tePlayers) {
@@ -247,21 +249,37 @@ class TriantaEna extends AbstractCardGame {
                     Hand h = p.getHand();
                     if (h.isStand() && teReferee.getHandValue(h) > dealerVal) {
                         win = h.getBet().getValue() * 2;
+                        dealerWin = false;
                     }
                     p.setBalance(p.getBalance() + win);
-                    // update dealer bank
-
+                }
+                if (dealerWin) {
+                    teDealer.setBank(teDealer.getBet().getValue() * 2);
                 }
             }
             isRoundEnd = true;
         }
-        // TODO: see if any player's balance exceed banker
-        // let player to decide whether to be a banker
 
     }
 
     @Override
     void resetGame() {
-
+        for (TEPlayer p : tePlayers) {
+            p.reset();
+        }
+        teDealer.reset();
+        // TODO: see if any player's balance exceed banker
+        // let player to decide whether to be a banker
+        Collections.sort(tePlayers);
+        for (int i = 0; i < tePlayers.size(); i++) {
+            if (tePlayers.get(i).getBalance() <= teDealer.getBank()) {
+                break;
+            }
+            if(inquireNewBanker(i)) {
+                switchDealer(i);
+                break;
+            }
+        }
+        Collections.sort(tePlayers);
     }
 }
