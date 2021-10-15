@@ -151,7 +151,7 @@ class BlackJack extends AbstractCardGame{
          p.setBet(bet);// if hands is null, it will add a new hand and set bet
       }
       boolean isRoundEnd = false;
-      while (isRoundEnd) {//all player win/lose/push referee decide isRoundEnd
+      while (!isRoundEnd) {//all player win/lose/push referee decide isRoundEnd
          for (BJPlayer p : bjPlayers) {
             boolean isPlayerStop = bjReferee.isPlayerStop(p);
             if (isPlayerStop) continue;
