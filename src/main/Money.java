@@ -22,4 +22,12 @@ class Money {
     public void add(Money m) {
         this.setValue(this.getValue() + m.getValue());
     }
+
+    public boolean compareTo(Money m) {
+        return getValue() >= m.getValue();
+    }
+
+    public boolean compareTo(int val) {
+        return getValue() >= val;
+    }
 }
