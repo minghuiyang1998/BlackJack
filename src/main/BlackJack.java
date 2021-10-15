@@ -1,6 +1,5 @@
 package main;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 
 import static main.PlayerActionType.*;
@@ -8,7 +7,7 @@ import static main.PlayerActionType.*;
 class BlackJack extends AbstractCardGame{
    private static BlackJack INSTANCE = null;
    private final BJPlayer[] bjPlayers;
-   private final BJDealer dealer;
+   private final BJDealer bjDealer;
    private final BJReferee referee;
 
    private BlackJack(
@@ -18,7 +17,7 @@ class BlackJack extends AbstractCardGame{
    ) {
       super();
       this.bjPlayers = bjPlayers;
-      this.dealer = bjDealer;
+      this.bjDealer = bjDealer;
       this.referee = bjReferee;
    }
 
@@ -64,7 +63,7 @@ class BlackJack extends AbstractCardGame{
       PlayerActionType a = chooseAction(actions);
       switch (a) {
          case HIT:
-            Card card = dealer.getRandomCard();
+            Card card = bjDealer.getRandomCard();
             p.hit(card);
             isActionSucceed = true;
             break;
@@ -84,13 +83,13 @@ class BlackJack extends AbstractCardGame{
             if (p.getBalance().getValue() < p.getBet().getValue()) {
                isActionSucceed = false;
             } else {
-               Card newCard = dealer.getRandomCard();
+               Card newCard = bjDealer.getRandomCard();
                p.doubleUp(newCard);
                isActionSucceed = true;
             }
             break;
          case DEAL:
-            ArrayList<Card> newCards = dealer.deal(2);
+            ArrayList<Card> newCards = bjDealer.deal(2);
             p.deal(newCards);
             break;
          default:
@@ -100,7 +99,25 @@ class BlackJack extends AbstractCardGame{
    }
 
    private void printTable() {
+      System.out.println("Dealer:");
+      ArrayList<Card> dealerCards = bjDealer.getCards();
+      for (Card c: dealerCards) {
+         if (c.isShown()) {
+            System.out.print(c.getSuit() + c.getName()+ " ");
+         }
+      }
+      System.out.println();
 
+      for (BJPlayer p: bjPlayers) {
+         System.out.println(p.getName()+":");
+         ArrayList<Card> pCards = bjDealer.getCards();
+         for (Card c: pCards) {
+            if (c.isShown()) {
+               System.out.print(c.getSuit() + c.getName()+ " ");
+            }
+         }
+         System.out.println();
+      }
    }
 
    @Override
@@ -125,7 +142,7 @@ class BlackJack extends AbstractCardGame{
              * calc player.getHand() -> isBust()
              * if(bust) set true + change currrent hand
              * */
-             //TODO: printTable()
+             printTable();
             /**
              * dealer.cardsset（有一张牌没有展示）
              *

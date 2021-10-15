@@ -1,18 +1,21 @@
 package main;
 
+import java.util.ArrayList;
+
 class BJDealer extends AbstractDealer {
-    // TODO: change to hand
-    CardSet cardsInHand;
+    Hand hand;
 
     BJDealer(Poker deck) {
         super(deck);
-        this.cardsInHand = new CardSet();
-
+        hand = new Hand(new Money(0));
     }
 
     void addCard(Card c) {
         /* dealer get cards after all players stand/bust */
-        this.cardsInHand.addCard(c);
+        hand.hit(c);
     }
 
+    public ArrayList<Card> getCards() {
+        return hand.getDeck();
+    }
 }
