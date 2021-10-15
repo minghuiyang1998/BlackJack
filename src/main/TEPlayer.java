@@ -2,7 +2,7 @@ package main;
 
 import java.util.ArrayList;
 
-final class TEPlayer extends AbstractPlayer {
+final class TEPlayer extends AbstractPlayer implements Comparable<TEPlayer> {
     private Hand hand;
 
     TEPlayer(String name, int balance) {
@@ -47,5 +47,11 @@ final class TEPlayer extends AbstractPlayer {
     }
     public boolean isCurrStand() {
         return hand.isStand();
+    }
+
+    @Override
+    public int compareTo(TEPlayer p) {
+        // Descending
+        return p.getBalance() - this.getBalance();
     }
 }
