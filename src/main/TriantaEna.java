@@ -117,6 +117,7 @@ class TriantaEna extends AbstractCardGame {
     }
 
     private void playAction(TEPlayer p) {
+        System.out.print(p.getName() + ", ");
         PlayerActionType a = chooseAction(this.actions);
         switch (a) {
             case HIT:
@@ -180,22 +181,26 @@ class TriantaEna extends AbstractCardGame {
     void startGame() {
         // TODO: can the player who has least amount of money be a banker?
         // TODO: keep inquiring bet if n * bet exceeds banker's bank?
+        System.out.println("Dealer: " + teDealer.getName() + "(Balance: " + teDealer.getBank() + ")");
         for (TEPlayer p: tePlayers) {
             System.out.print(p.getName() + "(Balance: " + p.getBalance() + ") " );
         }
+        System.out.println();
 
         int minBalance = tePlayers.get(tePlayers.size() - 1).getBalance(); // min balance amount of all current players
         Money bet = inquireBet(minBalance);
-        // Player set bet
-        for (TEPlayer p: tePlayers) {
-            System.out.print(p.getName() + "(Balance: " + p.getBalance() + ") " );
-            p.setBalance(p.getBalance() - bet.getValue());
-            p.setBet(bet);
-        }
         // Dealer set bet
         Money dealerBet = new Money(bet.getValue() * tePlayers.size());
         teDealer.setBank(teDealer.getBank() - bet.getValue());
         teDealer.setBet(dealerBet);
+        System.out.println("Dealer: " + teDealer.getName() + "(Balance: " + teDealer.getBank() + ")");
+        // Player set bet
+        for (TEPlayer p: tePlayers) {
+            p.setBalance(p.getBalance() - bet.getValue());
+            p.setBet(bet);
+            System.out.print(p.getName() + "(Balance: " + p.getBalance() + ") " );
+        }
+        System.out.println();
 
         boolean isRoundEnd = false;
         while (!isRoundEnd) {
