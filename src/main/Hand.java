@@ -46,11 +46,13 @@ class Hand extends CardSet {
         ArrayList<Card> temp = getDeck();
         Card secondCard = temp.remove(temp.size() - 1);
         Hand newHand = new Hand(new Money(bet.getValue()));
-        newHand.deal(new Card[]{secondCard});
+        ArrayList<Card> newCards = new ArrayList<>();
+        newCards.add(secondCard);
+        newHand.deal(newCards);
         return newHand;
     }
 
-    public void deal(Card[] cards) {
+    public void deal(ArrayList<Card> cards) {
         for (Card c: cards) {
             getDeck().add(c);
         }

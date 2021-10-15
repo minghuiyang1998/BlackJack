@@ -1,5 +1,10 @@
 package main;
 
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+
+import static main.PlayerActionType.*;
+
 class BlackJack extends AbstractCardGame{
    private static BlackJack INSTANCE = null;
    private final BJPlayer[] bjPlayers;
@@ -32,40 +37,86 @@ class BlackJack extends AbstractCardGame{
       return INSTANCE;
    }
 
+   private ArrayList<PlayerActionType> renderActionList(BJPlayer p) {
+      // default list
+      ArrayList<PlayerActionType> def = new ArrayList<>();
+      def.add(HIT);
+      def.add(STAND);
+
+      Hand hand = p.getHand();
+      ArrayList<Card> cards = hand.getDeck();
+      if (cards.size() == 1) {
+          def.add(DOUBLEUP);
+      }
+      if (cards.size() == 2) {
+         boolean isSame = cards.get(0).getValue() == cards.get(1).getValue();
+         if (isSame) {
+             def.add(SPLIT);
+         }
+      }
+
+      return def;
+   }
+
+   private boolean playAction(BJPlayer p) {
+      boolean isActionSucceed = false;
+      ArrayList<PlayerActionType> actions = renderActionList(p);
+      PlayerActionType a = chooseAction(actions);
+      switch (a) {
+         case HIT:
+            Card card = dealer.getRandomCard();
+            p.hit(card);
+            isActionSucceed = true;
+            break;
+         case STAND:
+            p.standCurr();
+            isActionSucceed = p.changeHand();
+            break;
+         case SPLIT:
+             if (p.getBalance().getValue() < p.getBet().getValue()) {
+                 isActionSucceed = false;
+             } else {
+                p.split();
+                isActionSucceed = true;
+             }
+            break;
+         case DOUBLEUP:
+            if (p.getBalance().getValue() < p.getBet().getValue()) {
+               isActionSucceed = false;
+            } else {
+               Card newCard = dealer.getRandomCard();
+               p.doubleUp(newCard);
+               isActionSucceed = true;
+            }
+            break;
+         case DEAL:
+            ArrayList<Card> newCards = dealer.deal(2);
+            p.deal(newCards);
+            break;
+         default:
+            break;
+      }
+      return isActionSucceed;
+   }
+
+   private void printTable() {
+
+   }
+
    @Override
    void startGame() {
-      //TODO: all player set bet
+      for (BJPlayer p: bjPlayers) {
+         Money bet = inquireBet();
+         p.setBet(bet);// if hands is null, it will add a new hand and set bet
+      }
       boolean isRoundEnd = false;
       while (isRoundEnd) {//all player win/lose/push referee decide isRoundEnd
          for (BJPlayer p : bjPlayers) {
             //TODO:referee 判断player能不能玩不能就 continue；
             // Whole player all hanged: isStand or isBust: getHands() -> referee
-
-            // TODO：get player status to decide player's actionlist
-            //  根据player现在的状态
-            //  超过两张不能doubleup，
-            //  如果有两张牌且两张是一样且就能split
-            PlayerActionType[] actions = new PlayerActionType[]{};
-            PlayerActionType a = chooseAction(actions);
-            switch (a) {
-               case HIT:
-                  // dealer
-                  // player
-                  break;
-               case STAND:
-                   p.standCurr();
-                   p.changeHand();
-                  break;
-               case SPLIT:
-                  // TODO: before player.split(cards) 判断一下balance够不够
-                  break;
-               case DOUBLEUP:
-                  // TODO: before player.doub(cards) 判断一下balance够不够
-                  break;
-               case DEAL:
-                  break;
-               default:
-                  break;
+            boolean isActionSucceed = false;
+            while (!isActionSucceed) {
+               isActionSucceed = playAction(p);
             }
             //TODO:boolean result = referee.judge()
             /**
@@ -111,12 +162,9 @@ class BlackJack extends AbstractCardGame{
 
    @Override
    void resetGame() {
-       /**
-        * for players
-        *   player.reset()
-        *
-        * dealer.reset() //换一副牌
-        *
-        * */
+      for (BJPlayer p: bjPlayers) {
+         p.reset();
+      }
+      //TODO: dealer.reset() //换一副牌
    }
 }

@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 class TriantaEna extends AbstractCardGame {
@@ -58,7 +59,7 @@ class TriantaEna extends AbstractCardGame {
         while (!isRoundEnd) {
             // referee decide isRoundEnd
             //TODO: get player status to decide player's actionlist
-            PlayerActionType[] actions = new PlayerActionType[] {};
+            ArrayList<PlayerActionType> actions = new ArrayList<>();
             PlayerActionType a = chooseAction(actions);
             //TODO: dealer.react(a)
             //TODO: referee

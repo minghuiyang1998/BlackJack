@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 abstract class AbstractCardGame {
@@ -9,6 +10,25 @@ abstract class AbstractCardGame {
     AbstractCardGame() {
         this.isEnd = false;
         this.scanner = new Scanner(System.in);
+    }
+
+    public Money inquireBet() {
+        System.out.println("Type the bet(at least 1): ");
+        int val = 0;
+        final int MIN_VAL = 1;
+        while (val < MIN_VAL) {
+            String betVal = scanner.nextLine();
+            try {
+                val = Integer.parseInt(betVal);
+            } catch (NumberFormatException e) {
+                System.out.println("invalid input, please enter an integer!");
+            }
+
+            if (val < MIN_VAL) {
+                System.out.println("invalid input, please enter a valid integer!");
+            }
+        }
+        return new Money(val);
     }
 
     private boolean inquireIsExit() {
@@ -28,14 +48,14 @@ abstract class AbstractCardGame {
         return isExit;
     }
     
-    PlayerActionType chooseAction(PlayerActionType[] actions) {
+    PlayerActionType chooseAction(ArrayList<PlayerActionType> actions) {
         System.out.println("Please select a action id: ");
-        for (int i = 0; i < actions.length; i++) {
-            System.out.println(i + ": " + actions[i].getName());
+        for (int i = 0; i < actions.size(); i++) {
+            System.out.println(i + ": " + actions.get(i).getName());
         }
 
         int id = -1;
-        while (id > actions.length || id < 0) {
+        while (id > actions.size() || id < 0) {
             String actionID = scanner.nextLine();
             try {
                 id = Integer.parseInt(actionID);
@@ -43,11 +63,11 @@ abstract class AbstractCardGame {
                 System.out.println("invalid input, please enter an integer!");
             }
 
-            if (id > actions.length || id < 0) {
+            if (id > actions.size() || id < 0) {
                 System.out.println("invalid input, please enter a valid integer!");
             }
         }
-        return actions[id];
+        return actions.get(id);
     }
 
     abstract void startGame();
