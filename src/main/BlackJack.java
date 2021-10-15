@@ -39,18 +39,21 @@ class BlackJack extends AbstractCardGame{
    private ArrayList<PlayerActionType> renderActionList(BJPlayer p) {
       // default list
       ArrayList<PlayerActionType> def = new ArrayList<>();
-      def.add(HIT);
-      def.add(STAND);
-
       Hand hand = p.getHand();
       ArrayList<Card> cards = hand.getDeck();
-      if (cards.size() == 1) {
-          def.add(DOUBLEUP);
-      }
-      if (cards.size() == 2) {
-         boolean isSame = cards.get(0).getValue() == cards.get(1).getValue();
-         if (isSame) {
-             def.add(SPLIT);
+      final int CARDS_LEN = cards.size();
+
+      if (CARDS_LEN <= 0) {
+          def.add(DEAL);
+      } else {
+         def.add(HIT);
+         def.add(STAND);
+         if (CARDS_LEN == 2) {
+            def.add(DOUBLEUP);
+            boolean isSame = cards.get(0).getValue() == cards.get(1).getValue();
+            if (isSame) {
+               def.add(SPLIT);
+            }
          }
       }
 
