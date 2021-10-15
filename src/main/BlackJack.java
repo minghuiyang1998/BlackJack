@@ -247,6 +247,7 @@ class BlackJack extends AbstractCardGame{
       for (BJPlayer p: bjPlayers) {
          p.reset();
       }
-      //TODO: dealer.reset() //换一副牌
+      // bjDealer reset: clear cards hold and get a new deck
+      bjDealer.reset();
    }
 }

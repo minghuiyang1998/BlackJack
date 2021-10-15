@@ -35,4 +35,9 @@ abstract class AbstractDealer {
     void setNotDealt(CardSet deck) {
         this.notDealt = deck;
     }
+
+    void reset() {
+        this.getHand().clear();
+        this.setNotDealt(new Poker());
+    }
 }
