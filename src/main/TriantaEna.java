@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 import static main.PlayerActionType.*;
 
@@ -53,11 +54,52 @@ class TriantaEna extends AbstractCardGame {
                 tePlayers.add(new TEPlayer("TEPlayer " + i, 100));
             }
             Poker poker = new Poker();
-            TEDealer teDealer = new TEDealer(poker, );
+            // TODO: init dealer with the player who has highest balance
+            // Sort tePlayers in descending order
+            Collections.sort(tePlayers);
+            TEDealer teDealer = new TEDealer(tePlayers.get(0).getName(), tePlayers.get(0).getBalance(), poker);
             TEReferee teReferee = new TEReferee();
             INSTANCE = new TriantaEna(tePlayers, teDealer, teReferee);
         }
         return INSTANCE;
+    }
+
+    public Money inquireBet(int balance) {
+        System.out.println("Please negotiate on bet amount(at least 1):");
+        Scanner scanner = new Scanner(System.in);
+
+        int val = 0;
+        final int MIN_VAL = 1;
+        while (val < MIN_VAL || val > balance || val > teDealer.bank.getValue()/tePlayers.size()) {
+            String betVal = scanner.nextLine();
+            try {
+                val = Integer.parseInt(betVal);
+            } catch (NumberFormatException e) {
+                System.out.println("invalid input, please enter an integer!");
+            }
+            if (val < MIN_VAL || val > balance) {
+                System.out.println("invalid input, please enter a valid integer!");
+            }
+        }
+
+        return new Money(val);
+    }
+
+    boolean inquireNewBanker(int playerIndex) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(tePlayers.get(playerIndex).getName() + ", do you want to be the banker? (y/n)");
+        String answer = scanner.nextLine();
+        while (answer.length() != 1 || !(answer.equals("y") || answer.equals("n"))) {
+            answer = scanner.nextLine();
+            if (answer.length() != 1 || !(answer.equals("y") || answer.equals("n"))) {
+                System.out.println("invalid input, please enter a valid input!");
+            }
+        }
+        boolean isWilling = false;
+        if (answer.equals("y") ) {
+            isWilling = true;
+        }
+        return isWilling;
     }
 
     void switchDealer(int playerIndex) {
@@ -103,7 +145,6 @@ class TriantaEna extends AbstractCardGame {
     }
 
     private void printTable(){
-        // TODO: printTable
         System.out.println("Banker:");
         ArrayList<Card> dealerCards = teDealer.getHand().getDeck();
         for (Card c: dealerCards) {
@@ -138,10 +179,22 @@ class TriantaEna extends AbstractCardGame {
     void startGame() {
         // TODO: can the player who has least amount of money be a banker?
         // TODO: keep inquiring bet if n * bet exceeds banker's bank?
-        Money bet = new Money(0);
-        while (teDealer.bank.compareTo(tePlayers.size() * bet.getValue())){
-            bet = inquireBet();   // begin with same amount of bet
+        for (TEPlayer p: tePlayers) {
+            System.out.print(p.getName() + "(Balance: " + p.getBalance() + ") " );
         }
+
+        int minBalance = tePlayers.get(tePlayers.size() - 1).getBalance(); // min balance amount of all current players
+        Money bet = inquireBet(minBalance);
+        // Player set bet
+        for (TEPlayer p: tePlayers) {
+            System.out.print(p.getName() + "(Balance: " + p.getBalance() + ") " );
+            p.setBalance(p.getBalance() - bet.getValue());
+            p.setBet(bet);
+        }
+        // Dealer set bet
+        Money dealerBet = new Money(bet.getValue() * tePlayers.size())
+        teDealer.setBank(teDealer.getBank() - bet.getValue());
+        teDealer.setBet(dealerBet);
 
         boolean isRoundEnd = false;
         while (!isRoundEnd) {
@@ -163,7 +216,7 @@ class TriantaEna extends AbstractCardGame {
 
             // dealer
             int EXCEED_VAL = 27;
-            boolean isExceed = teReferee.isExceed(teDealer.getHand(), EXCEED_VAL);;
+            boolean isExceed = teReferee.isExceed(teDealer.getHand(), EXCEED_VAL);
             while (!isExceed) {
                 Card c = teDealer.getRandomCard();
                 teDealer.addCard(c);

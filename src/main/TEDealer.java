@@ -20,12 +20,12 @@ class TEDealer extends AbstractDealer {
         return name;
     }
 
-    public Money getBank() {
-        return bank;
+    public int getBank() {
+        return bank.getValue();
     }
 
-    public void setBank(Money bank) {
-        this.bank = bank;
+    public void setBank(int bank) {
+        this.bank = new Money(bank);
     }
 
     public Money getBet() {
