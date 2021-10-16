@@ -110,7 +110,7 @@ class BlackJack extends AbstractCardGame{
                   bjDealer.addCard(c);
                }
             }
-            printTable();
+            isActionSucceed = true;
             break;
          default:
             break;
