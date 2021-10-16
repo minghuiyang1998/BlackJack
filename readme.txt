@@ -1,60 +1,55 @@
-To start a BlackJack/TriantaEna game, run Boot.java
+#Build
+mkdir out/
+javac -d out **/*.java
+
+#Run
+cd out/
+java main/Boot
 
 ====================Structure====================
-Classes:
+Classes Description:
 
---Boot		Main file for players to start the program.
+--Boot: Main file for players to start the program.
 
---MainGame	A java class that provides a menu for players to select
-		a game.
+--MainGame: A java class that provides a menu for players to select a game.
 
---Card		A java class represents  gaming cards with suits and 
-		value.
+--Card: A java class represents  gaming cards with suits and value.
 
---CardSet		A set of cards including some operations for updating
-		a hand of cards.
+--CardSet: A set of cards including some operations for updating a hand of cards.
 
---Poker		Extends CardSet, the constructor is used for create a 
-		deck of poker.
+--Poker: Extends CardSet, the constructor is used for create a deck of poker.
 
---Hand		A subclass of CardSet, representing a hand of cards of 
+--Hand: A subclass of CardSet, representing a hand of cards of
 		some player (since players are allowed to split cards in
 		BlackJack).
 
---Money		A class for setting balance and bet.
+--Money: A class for setting balance and bet.
 
---Suits		An enum containing the suits of poker.
+--Suits: An enum containing the suits of poker.
 
---PlayerActionType	Another enum represent player actions such as hit, split
-		and stand.
+--PlayerActionType: Another enum represent player actions such as hit, split and stand.
 
---AbstractPlayer	An abstract class which declares basic fields of a card
-		game player: name and balance.
+--AbstractPlayer: An abstract class which declares basic fields of a card game player: name and balance.
 
---BJPlayer	
+--BJPlayer: Extends AbstractPlayer, players can hit, stand, split, doubleup in BlackJack game.
 
---TEPlayer	Extends AbstractPlayer, add some specific player action
-		methods for TriantaEna.
+--TEPlayer: Extends AbstractPlayer, add some specific player action methods for TriantaEna.
 
---AbstractDealer	An abstract class that declares multiple basic operations 
-		of a dealer.
+--AbstractDealer: An abstract class that declares multiple basic operations of a dealer.
 
---BJDealer	
+--BJDealer: A subclass of AbstractDealer, a specific dealer for BlackJack game.
 
---TEDealer	A subclass of AbstractDealer, add 'bank' attribute to record
-		dealer's balance.
+--TEDealer: A subclass of AbstractDealer, add 'bank' attribute to record dealer's balance.
 
---Referee		A java interface for betting card game, including basic
-		methods to determine game state. 
+--Referee: A java interface for betting card game, including basic methods to determine game state.
 
---BJReferee	
+--BJReferee: Implements Referee interface
 
---TEReferee	Implements Referee interface and specifies BUST_VAL
-		(31) for TriantaEna.
+--TEReferee: Implements Referee interface and specifies BUST_VAL(31) for TriantaEna.
 
---AbstractCardGame Abstract class for casino banking game.
+--AbstractCardGame: Abstract class for casino banking game.
 
---BlackJack
+--BlackJack: Subclass of AbstractCardGame, main program for BlackJack.
 
---TriantaEna	Subclass of AbstractCardGame, main program for TriantaEna.
+--TriantaEna: Subclass of AbstractCardGame, main program for TriantaEna.
 
