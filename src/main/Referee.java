@@ -19,7 +19,7 @@ interface Referee<T extends AbstractPlayer> {
             }
             sum += c.getValue();
             // if current hand bust, retreat to Ace = 1
-            if (sum > bust_val && aceCount > 0) {
+            if (aceCount > 0 && sum > bust_val) {
                 sum -= 10;
                 aceCount--;
             }

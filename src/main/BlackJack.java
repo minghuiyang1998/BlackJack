@@ -225,12 +225,12 @@ class BlackJack extends AbstractCardGame{
             }
          } else {
             System.out.println("All stand and exceed dealer hands win!");
-            int dealerVal = bjReferee.getHandValue(bjDealer.getHand());
+            int dealerVal = bjReferee.getHandValue(bjDealer.getHand(), bjReferee.BUST_VAL);
             for (BJPlayer p: bjPlayers) {
                int win = 0;
                ArrayList<Hand> hands = p.getHands();
                for (Hand h: hands) {
-                  if (h.isStand() && bjReferee.getHandValue(h) > dealerVal) {
+                  if (h.isStand() && bjReferee.getHandValue(h, bjReferee.BUST_VAL) > dealerVal) {
                      win += h.getBet().getValue() * 2;
                   }
                }

@@ -97,6 +97,9 @@ class TriantaEna extends AbstractCardGame {
             if (val < MIN_VAL || val > balance) {
                 System.out.println("invalid input, please enter a valid integer!");
             }
+            if (val > teDealer.bank.getValue()/tePlayers.size()) {
+                System.out.println("invalid input, banker's bet will exceed bank amount");
+            }
         }
 
         return new Money(val);
@@ -269,15 +272,16 @@ class TriantaEna extends AbstractCardGame {
             } else {
                 boolean dealerWin = true;
 //                System.out.println("All stand and exceed dealer players win!");
-                int dealerVal = teReferee.getHandValue(teDealer.getHand());
+                int dealerVal = teReferee.getHandValue(teDealer.getHand(), teReferee.BUST_VAL);
                 for (TEPlayer p: tePlayers) {
                     int win = 0;
                     Hand h = p.getHand();
-                    if (h.isStand() && teReferee.getHandValue(h) > dealerVal) {
+                    if (h.isStand() && teReferee.getHandValue(h, teReferee.BUST_VAL) > dealerVal) {
                         win = h.getBet().getValue() * 2;
                         dealerWin = false;
+                        p.setBalance(p.getBalance() + win);
+                        System.out.println(p.getName() + " won $" + win + "! Current balance: " + p.getBalance());
                     }
-                    p.setBalance(p.getBalance() + win);
                 }
                 if (dealerWin) {
                     teDealer.setBank(teDealer.getBet().getValue() * 2);

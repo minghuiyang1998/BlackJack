@@ -7,12 +7,7 @@ class TEReferee implements Referee<TEPlayer> {
 
     @Override
     public boolean isBust(Hand hand) {
-        ArrayList<Card> cards = hand.getDeck();
-        int sum = 0;
-        for (Card c: cards) {
-            sum += c.getValue();
-        }
-        return sum > BUST_VAL;
+        return getHandValue(hand, BUST_VAL) > BUST_VAL;
     }
 
     @Override
