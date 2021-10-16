@@ -291,7 +291,7 @@ class TriantaEna extends AbstractCardGame {
                         win = h.getBet().getValue() * 2;
                         dealerWin = false;
                         p.setBalance(p.getBalance() + win);
-                        System.out.println(p.getName() + " won $" + win + "! Current balance: " + p.getBalance());
+                        System.out.println(p.getName() + " wins $" + win + "! Current balance: " + p.getBalance());
                     }
                 }
                 if (dealerWin) {
