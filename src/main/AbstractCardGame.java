@@ -83,4 +83,35 @@ abstract class AbstractCardGame {
             }
         }
     }
+
+    int addNewPlayer(int max_val) {
+        System.out.println("Add new players? (y/n)");
+        String answer = scanner.nextLine();
+        while (answer.length() != 1 || !(answer.equals("y") || answer.equals("n"))) {
+            answer = scanner.nextLine();
+            if (answer.length() != 1 || !(answer.equals("y") || answer.equals("n"))) {
+                System.out.println("invalid input, please enter a valid input!");
+            }
+        }
+        if (answer.equals("n") ) {
+            return 0;
+        }
+        else {
+            int num = -1;
+            while (num > max_val || num < 0) {
+                String playerNum = scanner.nextLine();
+                try {
+                    num = Integer.parseInt(playerNum);
+                } catch (NumberFormatException e) {
+                    System.out.println("invalid input, please enter an integer!");
+                }
+
+                if (num > max_val || num < 0) {
+                    System.out.println("invalid input, please enter a valid integer!");
+                }
+            }
+            return num;
+        }
+    }
+
 }
