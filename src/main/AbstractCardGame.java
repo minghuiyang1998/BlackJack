@@ -98,6 +98,7 @@ abstract class AbstractCardGame {
         }
         else {
             int num = -1;
+            System.out.println("Enter the number of new players: ");
             while (num > max_val || num < 0) {
                 String playerNum = scanner.nextLine();
                 try {
