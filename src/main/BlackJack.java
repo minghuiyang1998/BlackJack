@@ -60,6 +60,34 @@ class BlackJack extends AbstractCardGame{
       return def;
    }
 
+   private void startAction() {
+      ArrayList<PlayerActionType> actions = new ArrayList<>();
+      actions.add(DEAL);
+      PlayerActionType a = chooseAction(actions);
+      switch (a) {
+         case DEAL:
+            for (BJPlayer p : bjPlayers) {
+               ArrayList<Card> playerCards = bjDealer.deal(2);
+               p.deal(playerCards);
+            }
+            // dealer add cards
+            if (bjDealer.getHand().getDeck().size() <= 0) {
+               ArrayList<Card> dealerCards = bjDealer.deal(2);
+               int DEALER_CARDS_LEN = dealerCards.size();
+               for (int i = 0; i < DEALER_CARDS_LEN; i++) {
+                  Card c = dealerCards.get(i);
+                  if (i == DEALER_CARDS_LEN - 1) {
+                     c.setShown(false);
+                  }
+                  bjDealer.addCard(c);
+               }
+            }
+            break;
+         default:
+            break;
+      }
+   }
+
    private boolean playAction(BJPlayer p) {
       boolean isActionSucceed = false;
       ArrayList<PlayerActionType> actions = renderActionList(p);
@@ -94,23 +122,6 @@ class BlackJack extends AbstractCardGame{
                p.doubleUp(newCard);
                isActionSucceed = true;
             }
-            break;
-         case DEAL:
-            ArrayList<Card> playerCards = bjDealer.deal(2);
-            p.deal(playerCards);
-            // dealer add cards
-            if (bjDealer.getHand().getDeck().size() <= 0) {
-               ArrayList<Card> dealerCards = bjDealer.deal(2);
-               int DEALER_CARDS_LEN = dealerCards.size();
-               for (int i = 0; i < DEALER_CARDS_LEN; i++) {
-                  Card c = dealerCards.get(i);
-                  if (i == DEALER_CARDS_LEN - 1) {
-                     c.setShown(false);
-                  }
-                  bjDealer.addCard(c);
-               }
-            }
-            isActionSucceed = true;
             break;
          default:
             break;
@@ -159,6 +170,7 @@ class BlackJack extends AbstractCardGame{
                System.out.print("<Stand> ");
             }
             System.out.println();
+            System.out.println("---------------------------");
          }
       }
    }
@@ -171,6 +183,8 @@ class BlackJack extends AbstractCardGame{
          p.setBalance(p.getBalance() - bet.getValue());
          p.setBet(bet);// if hands is null, it will add a new hand and set bet
       }
+      startAction();
+      printTable();
       boolean isRoundEnd = false;
       while (!isRoundEnd) {//all player win/lose/push referee decide isRoundEnd
          for (BJPlayer p : bjPlayers) {
@@ -210,8 +224,10 @@ class BlackJack extends AbstractCardGame{
             bjDealer.getHand().setBust(true);
          }
          printTable();
+
+         boolean dealerWin = true;
          if (bjDealer.getHand().isBust()) {
-            System.out.println("All stand hands win!");
+            dealerWin = false;
             for (BJPlayer p: bjPlayers) {
                int win = 0;
                ArrayList<Hand> hands = p.getHands();
@@ -221,10 +237,9 @@ class BlackJack extends AbstractCardGame{
                   }
                }
                p.setBalance(p.getBalance() + win);
-               System.out.println(p.getName() + " Balance: " + p.getBalance());
+               System.out.println(p.getName() + " wins $" + win + "! Current balance: " + p.getBalance());
             }
          } else {
-            System.out.println("All stand and exceed dealer hands win!");
             int dealerVal = bjReferee.getHandValue(bjDealer.getHand(), bjReferee.BUST_VAL);
             for (BJPlayer p: bjPlayers) {
                int win = 0;
@@ -232,10 +247,17 @@ class BlackJack extends AbstractCardGame{
                for (Hand h: hands) {
                   if (h.isStand() && bjReferee.getHandValue(h, bjReferee.BUST_VAL) > dealerVal) {
                      win += h.getBet().getValue() * 2;
+                     dealerWin = false;
                   }
                }
                p.setBalance(p.getBalance() + win);
+               if (win > 0) {
+                  System.out.println(p.getName() + " wins $" + win + "! Current balance: " + p.getBalance());
+               }
             }
+         }
+         if (dealerWin) {
+            System.out.println("Dealer wins.");
          }
          isRoundEnd = true;
          System.out.println();

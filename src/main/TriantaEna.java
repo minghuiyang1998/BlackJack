@@ -211,14 +211,13 @@ class TriantaEna extends AbstractCardGame {
                 System.out.print("<Stand> ");
             }
             System.out.println();
-            System.out.println("------------------");
+            System.out.println("---------------------------");
         }
     }
 
     @Override
     void startGame() {
-        // can the player who has least amount of money be a banker?
-        // keep inquiring bet if n * bet exceeds banker's bank?
+        // keep inquiring bet if n * bet exceeds banker's bank
         System.out.println("Dealer: " + teDealer.getName() + "(Balance: " + teDealer.getBank() + ")");
         for (TEPlayer p: tePlayers) {
             System.out.println(p.getName() + "(Balance: " + p.getBalance() + ") " );
@@ -259,7 +258,12 @@ class TriantaEna extends AbstractCardGame {
             if (!isAllPlayerStop) continue;
 
             // dealer
-            int EXCEED_VAL = 27;
+            final int EXCEED_VAL = 27;
+            for (Card c: teDealer.getHand().getDeck()) {
+                if (!c.isShown()) {
+                    c.setShown(true);
+                }
+            }
             boolean isExceed = teReferee.isExceed(teDealer.getHand(), EXCEED_VAL);
             while (!isExceed) {
                 Card c = teDealer.getRandomCard();
@@ -271,7 +275,6 @@ class TriantaEna extends AbstractCardGame {
             boolean isDealerBust = teReferee.isBust(teDealer.getHand());
 
             if (isDealerBust) {
-                System.out.println("All stand players win!");
                 for (TEPlayer p: tePlayers) {
                     Hand h = p.getHand();
                     int win = 0;
@@ -279,10 +282,10 @@ class TriantaEna extends AbstractCardGame {
                         win = h.getBet().getValue() * 2;
                     }
                     p.setBalance(p.getBalance() + win);
+                    System.out.println(p.getName() + " wins $" + win + "! Current balance: " + p.getBalance());
                 }
             } else {
                 boolean dealerWin = true;
-//                System.out.println("All stand and exceed dealer players win!");
                 int dealerVal = teReferee.getHandValue(teDealer.getHand(), teReferee.BUST_VAL);
                 for (TEPlayer p: tePlayers) {
                     int win = 0;
@@ -291,11 +294,13 @@ class TriantaEna extends AbstractCardGame {
                         win = h.getBet().getValue() * 2;
                         dealerWin = false;
                         p.setBalance(p.getBalance() + win);
-                        System.out.println(p.getName() + " won $" + win + "! Current balance: " + p.getBalance());
+                        System.out.println(p.getName() + " wins $" + win + "! Current balance: " + p.getBalance());
                     }
                 }
                 if (dealerWin) {
-                    teDealer.setBank(teDealer.getBet().getValue() * 2);
+                    int win = teDealer.getBet().getValue() * 2;
+                    teDealer.setBank(teDealer.getBank() + win);
+                    System.out.println("Banker wins $" + win + "! Current balance: " + teDealer.getBank());
                 }
             }
             isRoundEnd = true;
@@ -309,10 +314,14 @@ class TriantaEna extends AbstractCardGame {
             p.reset();
         }
         teDealer.reset();
-        int newPlayer = addNewPlayer(MAX_PLAYER - tePlayers.size());
-        for (int i = 0; i < newPlayer; i++) {
-            tePlayers.add(new TEPlayer("TEPlayer " + tePlayers.size() + i, 100));
+        if (tePlayers.size() < MAX_PLAYER) {
+            int newPlayer = addNewPlayer(MAX_PLAYER - tePlayers.size() - 1);
+            for (int i = 0; i < newPlayer; i++) {
+                int playerIdx = tePlayers.size() + i + 1;
+                tePlayers.add(new TEPlayer("TEPlayer " + playerIdx, 100));
+            }
         }
+
         // see if any player's balance exceed banker
         // let player to decide whether to be a banker
         Collections.sort(tePlayers);
