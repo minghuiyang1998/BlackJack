@@ -224,7 +224,10 @@ class BlackJack extends AbstractCardGame{
             bjDealer.getHand().setBust(true);
          }
          printTable();
+
+         boolean dealerWin = true;
          if (bjDealer.getHand().isBust()) {
+            dealerWin = false;
             for (BJPlayer p: bjPlayers) {
                int win = 0;
                ArrayList<Hand> hands = p.getHands();
@@ -244,6 +247,7 @@ class BlackJack extends AbstractCardGame{
                for (Hand h: hands) {
                   if (h.isStand() && bjReferee.getHandValue(h, bjReferee.BUST_VAL) > dealerVal) {
                      win += h.getBet().getValue() * 2;
+                     dealerWin = false;
                   }
                }
                p.setBalance(p.getBalance() + win);
@@ -251,6 +255,9 @@ class BlackJack extends AbstractCardGame{
                   System.out.println(p.getName() + " wins $" + win + "! Current balance: " + p.getBalance());
                }
             }
+         }
+         if (dealerWin) {
+            System.out.println("Dealer wins.");
          }
          isRoundEnd = true;
          System.out.println();
